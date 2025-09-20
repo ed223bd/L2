@@ -1,6 +1,6 @@
 ### Graph maker
 
-This is a module that will generate graphs based on JSON data from the user. 
+This is a module that will generate graphs based on data objects from the user. 
 
 ## Features
 
