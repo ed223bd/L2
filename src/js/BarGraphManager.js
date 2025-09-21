@@ -15,19 +15,21 @@ export class BarGraphManager {
     const svg = document.querySelector('svg')
 
     // to give space for vertical line with markings
-    const margin = 30 
+    const margin = 30
+    const leftMargin = 50
+    const topMargin = 70
 
-    const barWidth = Math.floor((svgWidth - margin) / (data.length * 1.2))
+    const barWidth = Math.floor((svgWidth - leftMargin) / (data.length * 1.2))
     const highestValue = Math.max(...data.map(d => d.value))
 
     data.forEach((d, i) => {
       console.log(d.label, d.value)
-     
+
       // Margin for top of bars and under
-      const barHeight = (d.value / highestValue) * (svgHeight - margin - margin)
+      const barHeight = (d.value / highestValue) * (svgHeight - margin - topMargin)
 
       // 1.2 is padding between bars
-      const x = margin + i * 1.2 * barWidth 
+      const x = leftMargin + i * 1.2 * barWidth
       const y = (svgHeight - barHeight - margin)
       const barLabel = d.label
 
@@ -52,6 +54,44 @@ export class BarGraphManager {
       svg.appendChild(text)
     })
 
+    const axisLine = document.createElementNS('http://www.w3.org/2000/svg', 'line')
+
+    axisLine.setAttribute('x1', 10)
+    axisLine.setAttribute('x2', 10)
+    axisLine.setAttribute('y1', 10)
+    axisLine.setAttribute('y2', svgHeight - margin)
+    axisLine.setAttribute('stroke', 'black')
+    axisLine.setAttribute('stroke-width', 2)
+
+    // Set interval for the small lines
+    // Hard coded for now, make dynamic later.
+    // If-sats på högsta värdet?
+    // Om över 100, step = 10
+    const step = 5
+
+    for (let n = 0; n <= highestValue; n += step) {
+      const y = svgHeight - margin - (n / highestValue) * (svgHeight - margin - topMargin)
+
+      const minorLines = document.createElementNS('http://www.w3.org/2000/svg', 'line')
+
+      minorLines.setAttribute('x1', 5)
+      minorLines.setAttribute('y1', y)
+      minorLines.setAttribute('x2', 15)
+      minorLines.setAttribute('y2', y)
+      minorLines.setAttribute('stroke', 'black')
+      minorLines.setAttribute('stroke-width', 1)
+
+      const minorLinesLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text')
+
+      minorLinesLabel.setAttribute('x', 15)
+      minorLinesLabel.setAttribute('y', y + 5)
+      minorLinesLabel.textContent = n
+
+      svg.appendChild(minorLines)
+      svg.appendChild(minorLinesLabel)
+    }
+
+    svg.appendChild(axisLine)
   }
 }
 
@@ -59,12 +99,13 @@ export class BarGraphManager {
 // viewing in browser
 const barGraphManager = new BarGraphManager()
 const data = [
-  { label: "Luleå", value: "21" },
-  { label: "Sundsvall", value: "23" },
+  { label: "Luleå", value: "24" },
+  { label: "Sundsvall", value: "30" },
   { label: "Karlstad", value: "12" },
-  { label: "Luleå", value: "21" },
-  { label: "Sundsvall", value: "23" },
+  { label: "Luleå", value: "24" },
+  { label: "Sundsvall", value: "30" },
   { label: "Karlstad", value: "12" },
+
 ]
-  
+
 barGraphManager.createBarGraph(data)
