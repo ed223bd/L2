@@ -1,18 +1,14 @@
 export class BarGraphManager {
 
-  // IMORGON
-
-  // Set svgHeight and svgWidth
-  // Do some loop (forEach?) to create multiple 
-  // bars, dsepending on data.length ??
-
   // Move formatting to StatisticsManager
 
   // Should take an array of objects as parameter
   createBarGraph(data) {
+    // Width and height are set in the SVG element, but needs 
+    // to be calculated with for sizing of the bars.
     const svgWidth = 450
     const svgHeight = 300
-    const svg = document.querySelector('svg')
+    const svg = document.querySelector('#barGraph')
 
     // to give space for vertical line with markings
     const margin = 30
@@ -65,6 +61,9 @@ export class BarGraphManager {
 
     // Set interval for the small lines
     // Hard coded for now, make dynamic later.
+
+    // TODO: Om highestvalue är 33 ska streck för 35 skrivas ut
+
     // If-sats på högsta värdet?
     // Om över 100, step = 10
     const step = 5
@@ -90,7 +89,6 @@ export class BarGraphManager {
       svg.appendChild(minorLines)
       svg.appendChild(minorLinesLabel)
     }
-
     svg.appendChild(axisLine)
   }
 }
@@ -105,7 +103,5 @@ const data = [
   { label: "Luleå", value: "24" },
   { label: "Sundsvall", value: "30" },
   { label: "Karlstad", value: "12" },
-
 ]
-
 barGraphManager.createBarGraph(data)
