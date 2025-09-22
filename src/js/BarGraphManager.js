@@ -19,6 +19,7 @@ export class BarGraphManager {
     const highestValue = Math.max(...data.map(d => d.value))
 
     data.forEach((d, i) => {
+      // TODO: remove. For debugging
       console.log(d.label, d.value)
 
       // Margin for top of bars and under
