@@ -1,7 +1,7 @@
 export class PieChartManager {
-  
+
   constructor(svgId, width, height) {
-    this.svg = document.querySelector(`${svgId}`)
+    this.svg = document.querySelector(`#${svgId}`)
     this.svgWidth = width
     this.svgHeight = height
     this.radius = 100 // Hard coded for now
@@ -15,7 +15,7 @@ export class PieChartManager {
    * @param {number} svgWidth - The width of the svg element.
    * @param {number} svgHeight - The height of the svg element.
    */
-  createPieChart(data, svg, svgWidth, svgHeight, radius) {
+  createPieChart(data) {
     let sum = 0
     data.forEach(d => {
       sum += parseInt(d.value)
@@ -36,10 +36,13 @@ export class PieChartManager {
       console.log(sliceAngle)
 
       // Calls on private method to do the drawing
-      this.#createSlice(xMiddle, yMiddle, startAngle, sliceAngle)
+      this.#createSlice(xMiddle, yMiddle, startAngle, sliceAngle, this.radius)
 
       // Calls on private method to do the drawing
-      this.#createLabel(xMiddle, yMiddle, startAngle, sliceAngle, label)
+      this.#createLabel(xMiddle, yMiddle, startAngle, sliceAngle, this.radius, label)
+
+      // When slice and label has been created, update starting position for next slice
+      startAngle += sliceAngle
     })
   }
 
@@ -80,7 +83,7 @@ export class PieChartManager {
     this.svg.appendChild(path)
   }
 
-  #createLabel() {
+  #createLabel(xMiddle, yMiddle, startAngle, sliceAngle, radius, label) {
 
     const middleAngle = startAngle + sliceAngle / 2
 
@@ -97,21 +100,8 @@ export class PieChartManager {
     }
     text.setAttribute('x', xLabel)
     text.setAttribute('y', yLabel)
-    text.textContent = d.label
+    text.textContent = label
 
     this.svg.appendChild(text)
-
-    startAngle += sliceAngle
   }
 }
-
-const pieChartManager = new PieChartManager()
-const data = [
-  { label: "Luleå", value: "24" },
-  { label: "Sundsvall", value: "40" },
-  { label: "Karlstad", value: "12" },
-  { label: "Luleå", value: "24" },
-  { label: "Sundsvall", value: "30" },
-  { label: "Karlstad", value: "12" },
-]
-pieChartManager.createPieChart(data)
