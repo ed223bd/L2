@@ -24,15 +24,21 @@ export class PieChartManager {
       const xMiddle = svgWidth / 2
       const yMiddle = svgHeight / 2
 
-      const x1 = xMiddle + radius * Math.cos(startAngle)
-      const y1 = yMiddle + radius * Math.sin(startAngle)
-      const x2 = xMiddle + radius * Math.cos(startAngle + sliceAngle)
-      const y2 = yMiddle + radius * Math.sin(startAngle + sliceAngle)
+      const xStart = xMiddle + radius * Math.cos(startAngle)
+      const yStart = yMiddle + radius * Math.sin(startAngle)
+      const xEnd = xMiddle + radius * Math.cos(startAngle + sliceAngle)
+      const yEnd = yMiddle + radius * Math.sin(startAngle + sliceAngle)
+
+      let largeArcFlag
+      if (sliceAngle > Math.PI) {
+        largeArcFlag = 1
+      } else {
+        largeArcFlag = 0
+      }
 
       startAngle += sliceAngle
 
       const path = document.createElementNS('http://www.w3.org/2000/svg', 'path')
-
 
       // TODO: remove. Hard coded for static graphics
       // path.setAttribute('d', `
@@ -43,8 +49,8 @@ export class PieChartManager {
       // `)
       path.setAttribute('d', `
         M ${xMiddle} ${yMiddle}
-        L ${x1} ${y1}
-        A ${radius} ${radius} 0 0 1 ${x2} ${y2}
+        L ${xStart} ${yStart}
+        A ${radius} ${radius} 0 ${largeArcFlag} 1 ${xEnd} ${yEnd}
         Z 
       `
       )
@@ -55,7 +61,12 @@ export class PieChartManager {
       path.setAttribute('stroke-width', 2)
       svg.appendChild(path)
 
+      // Dela upp i create bars 
+      // Nedan ska vara i create labels
 
+      const text = document.createElementNS('http://www.w3.org/2000/svg', 'text')
+
+      text.setAttribute
 
       // For labels, use cos and sin to aim for middle of arch
     })
@@ -65,7 +76,7 @@ export class PieChartManager {
 const pieChartManager = new PieChartManager()
 const data = [
   { label: "Luleå", value: "24" },
-  { label: "Sundsvall", value: "30" },
+  { label: "Sundsvall", value: "40" },
   { label: "Karlstad", value: "12" },
   { label: "Luleå", value: "24" },
   { label: "Sundsvall", value: "30" },
