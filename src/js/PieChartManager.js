@@ -36,8 +36,6 @@ export class PieChartManager {
         largeArcFlag = 0
       }
 
-      startAngle += sliceAngle
-
       const path = document.createElementNS('http://www.w3.org/2000/svg', 'path')
 
       // TODO: remove. Hard coded for static graphics
@@ -64,11 +62,27 @@ export class PieChartManager {
       // Dela upp i create bars 
       // Nedan ska vara i create labels
 
+      const middleAngle = startAngle + sliceAngle / 2
+
+      const xLabel = xMiddle + radius * 1.2 * Math.cos(middleAngle)
+      const yLabel = yMiddle + radius * 1.2 * Math.sin(middleAngle)
+
+
       const text = document.createElementNS('http://www.w3.org/2000/svg', 'text')
 
-      text.setAttribute
+      if (Math.cos(middleAngle) > 0) {
+        text.setAttribute('text-anchor', 'start')
+      } else {
+        text.setAttribute('text-anchor', 'end')
+      }
+      text.setAttribute('x', xLabel)
+      text.setAttribute('y', yLabel)
+      text.textContent = d.label
 
-      // For labels, use cos and sin to aim for middle of arch
+      svg.appendChild(text)
+
+      startAngle += sliceAngle
+
     })
   }
 }
