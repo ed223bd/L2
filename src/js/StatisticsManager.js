@@ -1,5 +1,5 @@
 class StatisticsManager {
-  // Will validate data and split data into 
+  // Will validate data and split data into
   // attributes to build graphs from.
 
   // Validate based on the type of data for each graph?
@@ -10,8 +10,8 @@ class StatisticsManager {
   // Blir:
   // const svgWidth = 450
   // const svgHeight = 300
-  // i alla diagram-klasser annars 
+  // i alla diagram-klasser annars
 
   // "label" and "value" will be passed to the graphs
-  
+
 }

@@ -1,12 +1,11 @@
 class ThemeManager {
-
   // Will let the user/app-developer choose a 
   // theme for the graphs
 
   // Fill - färg, font, stroke (border)?
-  chooseTheme() {
+  chooseTheme () {
     const availableThemes = [
-      themeA = {
+      const themeA = {
         background: 'blue',
         border: "black",
         font: "Arial"

@@ -4,19 +4,19 @@ export class PieChartManager {
   #svgHeight
   #radius
 
-  constructor(svgId, width, height) {
+  constructor (svgId, width, height) {
     this.#svg = document.querySelector(`#${svgId}`)
     this.#svgWidth = width
     this.#svgHeight = height
-    this.#radius = this.#svgHeight / 3 
+    this.#radius = this.#svgHeight / 3
   }
 
   /**
    * Public method that is the starting point for drawing the pie chart.
-   * 
+   *
    * @param {Array} data - An array of objects, set in the app.
    */
-  createPieChart(data) {
+  createPieChart (data) {
     let sum = 0
     data.forEach(d => {
       sum += parseInt(d.value)
@@ -47,7 +47,7 @@ export class PieChartManager {
     })
   }
 
-  #createSlice(xMiddle, yMiddle, startAngle, sliceAngle) {
+  #createSlice (xMiddle, yMiddle, startAngle, sliceAngle) {
     const xStart = xMiddle + this.#radius * Math.cos(startAngle)
     const yStart = yMiddle + this.#radius * Math.sin(startAngle)
     const xEnd = xMiddle + this.#radius * Math.cos(startAngle + sliceAngle)
@@ -84,13 +84,11 @@ export class PieChartManager {
     this.#svg.appendChild(path)
   }
 
-  #createLabel(xMiddle, yMiddle, startAngle, sliceAngle, label) {
-
+  #createLabel (xMiddle, yMiddle, startAngle, sliceAngle, label) {
     const middleAngle = startAngle + sliceAngle / 2
 
     const xLabel = xMiddle + this.#radius * 1.2 * Math.cos(middleAngle)
     const yLabel = yMiddle + this.#radius * 1.2 * Math.sin(middleAngle)
-
 
     const text = document.createElementNS('http://www.w3.org/2000/svg', 'text')
 

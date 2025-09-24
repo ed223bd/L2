@@ -3,7 +3,7 @@ export class BarGraphManager {
   // Move formatting to StatisticsManager
 
   // Should take an array of objects as parameter
-  createBarGraph(data) {
+  createBarGraph (data) {
     // Width and height are set in the SVG element, but needs 
     // to be calculated with for sizing of the bars.
     const svgWidth = 450
@@ -93,16 +93,3 @@ export class BarGraphManager {
     svg.appendChild(axisLine)
   }
 }
-
-// Calls the createBar method, to enable
-// viewing in browser
-const barGraphManager = new BarGraphManager()
-const data = [
-  { label: "Luleå", value: "24" },
-  { label: "Sundsvall", value: "30" },
-  { label: "Karlstad", value: "12" },
-  { label: "Luleå", value: "24" },
-  { label: "Sundsvall", value: "30" },
-  { label: "Karlstad", value: "12" },
-]
-barGraphManager.createBarGraph(data)
