@@ -1,67 +1,81 @@
 export class BarGraphManager {
+  #svg
+  #svgWidth
+  #svgHeight
+  #margin
+  #leftMargin
+  #topMargin
 
-  // Move formatting to StatisticsManager
+  constructor (svgId, width, height) {
+    this.#svg = document.querySelector(`#${svgId}`)
+    this.#svgWidth = width
+    this.#svgHeight = height
+    // TODO: Hard coded for now
+    this.#margin = 30
+    this.#leftMargin = 50
+    this.#topMargin = 70
+  }
 
-  // Should take an array of objects as parameter
   createBarGraph (data) {
-    // Width and height are set in the SVG element, but needs 
-    // to be calculated with for sizing of the bars.
-    const svgWidth = 450
-    const svgHeight = 300
-    const svg = document.querySelector('#barGraph')
-
-    // to give space for vertical line with markings
-    const margin = 30
-    const leftMargin = 50
-    const topMargin = 70
-
-    const barWidth = Math.floor((svgWidth - leftMargin) / (data.length * 1.2))
+    const barWidth = Math.floor((this.#svgWidth - this.#leftMargin) / (data.length * 1.2))
     const highestValue = Math.max(...data.map(d => d.value))
 
     data.forEach((d, i) => {
       // TODO: remove. For debugging
-      console.log(d.label, d.value)
+      // console.log(d.label, d.value)
+      const value = d.value
+      const label = d.label
 
-      // Margin for top of bars and under
-      const barHeight = (d.value / highestValue) * (svgHeight - margin - topMargin)
+      const barHeight = (value / highestValue) * (this.#svgHeight - this.#margin - this.#topMargin)
 
       // 1.2 is padding between bars
-      const x = leftMargin + i * 1.2 * barWidth
-      const y = (svgHeight - barHeight - margin)
-      const barLabel = d.label
+      const x = this.#leftMargin + i * 1.2 * barWidth
+      const y = (this.#svgHeight - barHeight - this.#margin)
 
-      const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect')
+      this.#createBar(x, y, barHeight, barWidth)
 
-      rect.setAttribute('x', x)
-      rect.setAttribute('y', y)
-      rect.setAttribute('height', barHeight)
-      rect.setAttribute('width', barWidth)
-      rect.setAttribute('fill', 'blue')
-      rect.setAttribute('fill-opacity', 0.2)
-      rect.setAttribute('stroke', 'black')
-
-      const text = document.createElementNS('http://www.w3.org/2000/svg', 'text')
-
-      text.setAttribute('x', x)
-      text.setAttribute('y', 290)
-      text.textContent = barLabel
-
-      // Add new element/s to SVG
-      svg.appendChild(rect)
-      svg.appendChild(text)
+      this.#createLabel(x, y, barWidth, label)
     })
+    this.#createAxis(highestValue)
+  }
 
+  #createBar (x, y, barHeight, barWidth) {
+    const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect')
+
+    rect.setAttribute('x', x)
+    rect.setAttribute('y', y)
+    rect.setAttribute('height', barHeight)
+    rect.setAttribute('width', barWidth)
+    rect.setAttribute('fill', 'blue')
+    rect.setAttribute('fill-opacity', 0.2)
+    rect.setAttribute('stroke', 'black')
+
+    this.#svg.appendChild(rect)
+  }
+
+  #createLabel (x, y, barWidth, label) {
+    const xLabel = x + barWidth / 2
+    const yLabel = this.#svgHeight - this.#margin / 2
+    const text = document.createElementNS('http://www.w3.org/2000/svg', 'text')
+
+    text.setAttribute('x', xLabel)
+    text.setAttribute('y', yLabel)
+    text.setAttribute('text-anchor', 'middle')
+    text.textContent = label
+
+    // Add new element/s to SVG
+    this.#svg.appendChild(text)
+  }
+
+  #createAxis (highestValue) {
     const axisLine = document.createElementNS('http://www.w3.org/2000/svg', 'line')
 
     axisLine.setAttribute('x1', 10)
     axisLine.setAttribute('x2', 10)
     axisLine.setAttribute('y1', 10)
-    axisLine.setAttribute('y2', svgHeight - margin)
+    axisLine.setAttribute('y2', this.#svgHeight - this.#margin)
     axisLine.setAttribute('stroke', 'black')
     axisLine.setAttribute('stroke-width', 2)
-
-    // Set interval for the small lines
-    // Hard coded for now, make dynamic later.
 
     // TODO: Om highestvalue är 33 ska streck för 35 skrivas ut
 
@@ -70,7 +84,7 @@ export class BarGraphManager {
     const step = 5
 
     for (let n = 0; n <= highestValue; n += step) {
-      const y = svgHeight - margin - (n / highestValue) * (svgHeight - margin - topMargin)
+      const y = this.#svgHeight - this.#margin - (n / highestValue) * (this.#svgHeight - this.#margin - this.#topMargin)
 
       const minorLines = document.createElementNS('http://www.w3.org/2000/svg', 'line')
 
@@ -87,9 +101,9 @@ export class BarGraphManager {
       minorLinesLabel.setAttribute('y', y + 5)
       minorLinesLabel.textContent = n
 
-      svg.appendChild(minorLines)
-      svg.appendChild(minorLinesLabel)
+      this.#svg.appendChild(minorLines)
+      this.#svg.appendChild(minorLinesLabel)
     }
-    svg.appendChild(axisLine)
+    this.#svg.appendChild(axisLine)
   }
 }

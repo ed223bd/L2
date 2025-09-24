@@ -1,4 +1,4 @@
-import { BarGraphManager, PieChartManager } from '../src/js/index.js'
+import { BarGraphManager, PieChartManager } from '../src/index.js'
 
 // New instances and set values for constructor
 const barGraphManager = new BarGraphManager('barGraph', 450, 300)
