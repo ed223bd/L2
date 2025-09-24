@@ -3,12 +3,14 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "npx eslint ./src || exit 0"
   },
-  "author": "",
+  "author": "Ebba Dahlberg",
   "license": "ISC",
   "description": "",
-  "dependencies": {
-    "eslint": "^9.35.0"
+  "type": "module",
+  "devDependencies": {
+    "@lnu/eslint-config": "^1.1.10"
   }
 }
