@@ -11,9 +11,9 @@ export class BarGraphManager {
     this.#svgWidth = width
     this.#svgHeight = height
     // TODO: Hard coded for now
-    this.#margin = 30
-    this.#leftMargin = 50
-    this.#topMargin = 70
+    this.#margin = this.#svgWidth * 0.1
+    this.#leftMargin = this.#svgWidth * 0.12
+    this.#topMargin = this.#svgWidth * 0.14
   }
 
   createBarGraph (data) {
