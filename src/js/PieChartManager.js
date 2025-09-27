@@ -20,7 +20,7 @@ export class PieChartManager {
     let sum = 0
     data.forEach(d => {
       sum += parseInt(d.value)
-    });
+    })
     console.log(sum)
 
     let startAngle = 0
@@ -30,7 +30,8 @@ export class PieChartManager {
 
     data.forEach(d => {
       const label = d.label
-      const slice = d.value / sum
+      const value = d.value
+      const slice = value / sum
       // console.log(slice)
 
       const sliceAngle = slice * 2 * Math.PI
@@ -40,7 +41,11 @@ export class PieChartManager {
       this.#createSlice(xMiddle, yMiddle, startAngle, sliceAngle)
 
       // Calls on private method to do the drawing
-      this.#createLabel(xMiddle, yMiddle, startAngle, sliceAngle, label)
+      const middleAngle = startAngle + sliceAngle / 2
+
+      const xLabel = xMiddle + this.#radius * 1.2 * Math.cos(middleAngle)
+      const yLabel = yMiddle + this.#radius * 1.2 * Math.sin(middleAngle)
+      this.#createLabel(middleAngle, xLabel, yLabel, label, value)
 
       // When slice and label has been created, update starting position for next slice
       startAngle += sliceAngle
@@ -84,12 +89,7 @@ export class PieChartManager {
     this.#svg.appendChild(path)
   }
 
-  #createLabel (xMiddle, yMiddle, startAngle, sliceAngle, label) {
-    const middleAngle = startAngle + sliceAngle / 2
-
-    const xLabel = xMiddle + this.#radius * 1.2 * Math.cos(middleAngle)
-    const yLabel = yMiddle + this.#radius * 1.2 * Math.sin(middleAngle)
-
+  #createLabel (middleAngle, xLabel, yLabel, label, value) {
     const text = document.createElementNS('http://www.w3.org/2000/svg', 'text')
 
     if (Math.cos(middleAngle) > 0) {
@@ -99,8 +99,20 @@ export class PieChartManager {
     }
     text.setAttribute('x', xLabel)
     text.setAttribute('y', yLabel)
+
     text.textContent = label
 
     this.#svg.appendChild(text)
+    this.#drawValue (xLabel, yLabel, value)
+  }
+
+  #drawValue (xLabel, yLabel, value) {
+    const valueText = document.createElementNS('http://www.w3.org/2000/svg', 'text')
+
+    valueText.setAttribute('x', xLabel)
+    valueText.setAttribute('y', yLabel + 30)
+    valueText.textContent = value
+
+    this.#svg.appendChild(valueText)
   }
 }
