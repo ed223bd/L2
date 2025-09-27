@@ -1,3 +1,7 @@
+/**
+ * Class that creates a Bar Graph diagram by looping through each data
+ * object in an array and drawing to the SVG element.
+ */
 export class BarGraphManager {
   #svg
   #svgWidth
@@ -6,6 +10,13 @@ export class BarGraphManager {
   #leftMargin
   #topMargin
 
+  /**
+   * Sets the size of the bar graph SVG element for calculations.
+   *
+   * @param {string} svgId - The id for the SVG element for Bar Graph.
+   * @param {number} width - The width to make calculations from.
+   * @param {number} height - The height to make calculations from.
+   */
   constructor (svgId, width, height) {
     this.#svg = document.querySelector(`#${svgId}`)
     this.#svgWidth = width
@@ -16,6 +27,11 @@ export class BarGraphManager {
     this.#topMargin = this.#svgWidth * 0.14
   }
 
+  /**
+   * Main method that makes calculations and calls on the drawing.
+   *
+   * @param {Array} data - The data array with objects.
+   */
   createBarGraph (data) {
     const barWidth = Math.floor((this.#svgWidth - this.#leftMargin) / (data.length * 1.2))
     const highestValue = Math.max(...data.map(d => d.value))
@@ -32,14 +48,19 @@ export class BarGraphManager {
       const x = this.#leftMargin + i * 1.2 * barWidth
       const y = (this.#svgHeight - barHeight - this.#margin)
 
-      this.#createBar(x, y, barHeight, barWidth)
+      this.#drawBar(x, y, barHeight, barWidth)
 
-      this.#createLabel(x, y, barWidth, label)
+      const xLabelPosition = x + barWidth / 2
+      const yLabelPosition = this.#svgHeight - this.#margin / 2
+      this.#drawLabel(xLabelPosition, yLabelPosition, label)
+
+      const yValuePosition = yLabelPosition * 0.9
+      this.#drawValue(xLabelPosition, yValuePosition, value)
     })
     this.#createAxis(highestValue)
   }
 
-  #createBar (x, y, barHeight, barWidth) {
+  #drawBar (x, y, barHeight, barWidth) {
     const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect')
 
     rect.setAttribute('x', x)
@@ -53,18 +74,27 @@ export class BarGraphManager {
     this.#svg.appendChild(rect)
   }
 
-  #createLabel (x, y, barWidth, label) {
-    const xLabel = x + barWidth / 2
-    const yLabel = this.#svgHeight - this.#margin / 2
+  #drawLabel (xLabelPosition, yLabelPosition, label) {
     const text = document.createElementNS('http://www.w3.org/2000/svg', 'text')
 
-    text.setAttribute('x', xLabel)
-    text.setAttribute('y', yLabel)
+    text.setAttribute('x', xLabelPosition)
+    text.setAttribute('y', yLabelPosition)
     text.setAttribute('text-anchor', 'middle')
     text.textContent = label
 
     // Add new element/s to SVG
     this.#svg.appendChild(text)
+  }
+
+  #drawValue (xLabelPosition, yValuePosition, value) {
+    const valueText = document.createElementNS('http://www.w3.org/2000/svg', 'text')
+
+    valueText.setAttribute('x', xLabelPosition)
+    valueText.setAttribute('y', yValuePosition)
+    valueText.setAttribute('text-anchor', 'middle')
+    valueText.textContent = value
+
+    this.#svg.appendChild(valueText)
   }
 
   #createAxis (highestValue) {
