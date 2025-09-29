@@ -17,6 +17,9 @@ export class PieChartManager {
    * @param {Array} data - An array of objects, set in the app.
    */
   createPieChart (data) {
+
+    // Om endast ett värde, rita cirkel och skriv ut label och value
+
     let sum = 0
     data.forEach(d => {
       sum += parseInt(d.value)

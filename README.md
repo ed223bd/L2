@@ -2,7 +2,7 @@
 
 This is a module that was created as part of the 1dv610 course at Linnaeus University. As it is a student project, it will not be regularly maintained. 
 
-The Diagram Maker can generate SVG-elements in the form of diagrams, based on data objects from the user. This module is suitable for smaller diagrams. 
+The Diagram Maker can script diagrams to SVG-elements, based on data objects from the user. This module is suitable for smaller diagrams. 
 
 ## Features
 

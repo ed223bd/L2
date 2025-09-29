@@ -17,7 +17,7 @@ export class BarGraphManager {
    * @param {number} width - The width to make calculations from.
    * @param {number} height - The height to make calculations from.
    */
-  constructor (svgId, width, height) {
+  constructor(svgId, width, height) {
     this.#svg = document.querySelector(`#${svgId}`)
     this.#svgWidth = width
     this.#svgHeight = height
@@ -32,7 +32,7 @@ export class BarGraphManager {
    *
    * @param {Array} data - The data array with objects.
    */
-  createBarGraph (data) {
+  createBarGraph(data) {
     const barWidth = Math.floor((this.#svgWidth - this.#leftMargin) / (data.length * 1.2))
     const highestValue = Math.max(...data.map(d => d.value))
 
@@ -60,7 +60,7 @@ export class BarGraphManager {
     this.#createAxis(highestValue)
   }
 
-  #drawBar (x, y, barHeight, barWidth) {
+  #drawBar(x, y, barHeight, barWidth) {
     const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect')
 
     rect.setAttribute('x', x)
@@ -74,7 +74,7 @@ export class BarGraphManager {
     this.#svg.appendChild(rect)
   }
 
-  #drawLabel (xLabelPosition, yLabelPosition, label) {
+  #drawLabel(xLabelPosition, yLabelPosition, label) {
     const text = document.createElementNS('http://www.w3.org/2000/svg', 'text')
 
     text.setAttribute('x', xLabelPosition)
@@ -86,7 +86,7 @@ export class BarGraphManager {
     this.#svg.appendChild(text)
   }
 
-  #drawValue (xLabelPosition, yValuePosition, value) {
+  #drawValue(xLabelPosition, yValuePosition, value) {
     const valueText = document.createElementNS('http://www.w3.org/2000/svg', 'text')
 
     valueText.setAttribute('x', xLabelPosition)
@@ -97,7 +97,7 @@ export class BarGraphManager {
     this.#svg.appendChild(valueText)
   }
 
-  #createAxis (highestValue) {
+  #createAxis(highestValue) {
     const axisLine = document.createElementNS('http://www.w3.org/2000/svg', 'line')
 
     axisLine.setAttribute('x1', 10)
@@ -109,9 +109,14 @@ export class BarGraphManager {
 
     // TODO: Om highestvalue är 33 ska streck för 35 skrivas ut
 
-    // If-sats på högsta värdet?
-    // Om över 100, step = 10
-    const step = 5
+    let step
+    if (highestValue <= 10) {
+      step = 1
+    } else if (highestValue > 10 && highestValue <= 100) {
+      step = 5
+    } else {
+      step = 10
+    }
 
     for (let n = 0; n <= highestValue; n += step) {
       const y = this.#svgHeight - this.#margin - (n / highestValue) * (this.#svgHeight - this.#margin - this.#topMargin)
