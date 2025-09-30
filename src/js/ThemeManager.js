@@ -1,19 +1,29 @@
+/**
+ *
+ */
 export class ThemeManager {
-  // Will let the user/app-developer choose a
-  // theme for the graphs
-
-  // Fill - färg, font, stroke (border)?
-  chooseTheme (theme) {
-    const themeA = {
-      fill: 'blue',
-      border: 'black',
-      font: 'Arial'
+  /**
+   *
+   */
+  setTheme (chosenTheme) {
+    if (chosenTheme === 'themeA') {
+      const themeA = {
+        fill: 'blue',
+        opacity: 0.2,
+        border: 'black',
+        font: 'Arial'
+      }
+      return themeA
     }
 
-    themeB = {
-      background: "green",
-      border: "darkgreen",
-      font: "Times new Roman"
+    if (chosenTheme === 'themeB') {
+      const themeB = {
+        fill: 'green',
+        opacity: 0.2,
+        border: 'darkgreen',
+        font: 'Times new Roman'
+      }
+      return themeB
     }
   }
 }

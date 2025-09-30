@@ -17,7 +17,7 @@ export class BarGraphManager {
    * @param {number} width - The width to make calculations from.
    * @param {number} height - The height to make calculations from.
    */
-  constructor(svgId, width, height) {
+  constructor (svgId, width, height) {
     this.#svg = document.querySelector(`#${svgId}`)
     this.#svgWidth = width
     this.#svgHeight = height
@@ -31,8 +31,9 @@ export class BarGraphManager {
    * Main method that makes calculations and calls on the drawing.
    *
    * @param {Array} data - The data array with objects.
+   * @param {string} theme - The chosen theme with attributes.
    */
-  createBarGraph(data) {
+  createBarGraph (data, theme) {
     const barWidth = Math.floor((this.#svgWidth - this.#leftMargin) / (data.length * 1.2))
     const highestValue = Math.max(...data.map(d => d.value))
 
@@ -48,7 +49,7 @@ export class BarGraphManager {
       const x = this.#leftMargin + i * 1.2 * barWidth
       const y = (this.#svgHeight - barHeight - this.#margin)
 
-      this.#drawBar(x, y, barHeight, barWidth)
+      this.#drawBar(x, y, barHeight, barWidth, theme)
 
       const xLabelPosition = x + barWidth / 2
       const yLabelPosition = this.#svgHeight - this.#margin / 2
@@ -60,21 +61,21 @@ export class BarGraphManager {
     this.#createAxis(highestValue)
   }
 
-  #drawBar(x, y, barHeight, barWidth) {
+  #drawBar (x, y, barHeight, barWidth, theme) {
     const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect')
 
     rect.setAttribute('x', x)
     rect.setAttribute('y', y)
     rect.setAttribute('height', barHeight)
     rect.setAttribute('width', barWidth)
-    rect.setAttribute('fill', 'blue')
-    rect.setAttribute('fill-opacity', 0.2)
-    rect.setAttribute('stroke', 'black')
+    rect.setAttribute('fill', theme.fill)
+    rect.setAttribute('fill-opacity', theme.opacity)
+    rect.setAttribute('stroke', theme.border)
 
     this.#svg.appendChild(rect)
   }
 
-  #drawLabel(xLabelPosition, yLabelPosition, label) {
+  #drawLabel (xLabelPosition, yLabelPosition, label) {
     const text = document.createElementNS('http://www.w3.org/2000/svg', 'text')
 
     text.setAttribute('x', xLabelPosition)
@@ -86,7 +87,7 @@ export class BarGraphManager {
     this.#svg.appendChild(text)
   }
 
-  #drawValue(xLabelPosition, yValuePosition, value) {
+  #drawValue (xLabelPosition, yValuePosition, value) {
     const valueText = document.createElementNS('http://www.w3.org/2000/svg', 'text')
 
     valueText.setAttribute('x', xLabelPosition)
@@ -97,7 +98,7 @@ export class BarGraphManager {
     this.#svg.appendChild(valueText)
   }
 
-  #createAxis(highestValue) {
+  #createAxis (highestValue) {
     const axisLine = document.createElementNS('http://www.w3.org/2000/svg', 'line')
 
     axisLine.setAttribute('x1', 10)
