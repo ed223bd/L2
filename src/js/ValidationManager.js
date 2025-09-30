@@ -14,8 +14,8 @@ export class ValidationManager {
         throw new Error('Each label needs to be a string, that is not empty')
       }
 
-      if (typeof d.value !== 'number') {
-        throw new Error('Value needs to be a number')
+      if (typeof d.value !== 'number' || d.value < 0) {
+        throw new Error('Value needs to be a non-negative number')
       }
     })
     return rawData

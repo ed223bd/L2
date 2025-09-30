@@ -22,40 +22,44 @@ export class PieChartManager {
     const xMiddle = this.#svgWidth / 2
     const yMiddle = this.#svgHeight / 2
 
-    // If there is only one data object, only draw a circle and print values.
-    if (data.length === 1) {
-      this.#drawCircle(data)
-    }
-
     let sum = 0
     data.forEach(d => {
       sum += parseInt(d.value)
     })
-    console.log(sum)
+    // console.log(sum)
 
-    data.forEach(d => {
-      const label = d.label
-      const value = d.value
-      const slice = value / sum
-      const slicePercentage = Math.round(slice * 100)
-      // console.log(slice)
+    // If there is only one data object, only draw a circle and print values.
+    if (data.length === 1) {
+      data.forEach(d => {
+        const label = d.label
+        const value = d.value
+        this.#drawCircle(xMiddle, yMiddle, label, value, theme)
+      })
+    } else {
+      data.forEach(d => {
+        const label = d.label
+        const value = d.value
+        const slice = value / sum
+        const slicePercentage = Math.round(slice * 100)
+        // console.log(slice)
 
-      const sliceAngle = slice * 2 * Math.PI
-      console.log(sliceAngle)
+        const sliceAngle = slice * 2 * Math.PI
+        // console.log(sliceAngle)
 
-      // Calls on private method to do the drawing
-      this.#createSlice(xMiddle, yMiddle, startAngle, sliceAngle, theme)
+        // Calls on private method to do the drawing
+        this.#createSlice(xMiddle, yMiddle, startAngle, sliceAngle, theme)
 
-      // Calls on private method to do the drawing
-      const middleAngle = startAngle + sliceAngle / 2
+        // Calls on private method to do the drawing
+        const middleAngle = startAngle + sliceAngle / 2
 
-      const xLabel = xMiddle + this.#radius * 1.2 * Math.cos(middleAngle)
-      const yLabel = yMiddle + this.#radius * 1.2 * Math.sin(middleAngle)
-      this.#createLabel(middleAngle, xLabel, yLabel, label, slicePercentage, theme)
+        const xLabel = xMiddle + this.#radius * 1.2 * Math.cos(middleAngle)
+        const yLabel = yMiddle + this.#radius * 1.2 * Math.sin(middleAngle)
+        this.#createLabel(middleAngle, xLabel, yLabel, label, slicePercentage, theme)
 
-      // When slice and label has been created, update starting position for next slice
-      startAngle += sliceAngle
-    })
+        // When slice and label has been created, update starting position for next slice
+        startAngle += sliceAngle
+      })
+    }
   }
 
   #createSlice (xMiddle, yMiddle, startAngle, sliceAngle, theme) {
@@ -113,10 +117,32 @@ export class PieChartManager {
     this.#svg.appendChild(text)
   }
 
-  #drawCircle (data) {
+  #drawCircle (xMiddle, yMiddle, label, value, theme) {
     const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle')
-  
-    circle.setAttribute
-  
+
+    circle.setAttribute('r', this.#radius)
+    circle.setAttribute('cx', xMiddle)
+    circle.setAttribute('cy', yMiddle)
+    circle.setAttribute('fill', theme.color)
+    circle.setAttribute('fill-opacity', theme.colorOpacity)
+    circle.setAttribute('stroke', theme.border)
+    circle.setAttribute('stroke-width', theme.borderWidth)
+
+    this.#svg.appendChild(circle)
+    this.#drawCircleValue(xMiddle, yMiddle, label, theme)
+  }
+
+  #drawCircleValue (xMiddle, yMiddle, label, theme) {
+    const text = document.createElementNS('http://www.w3.org/2000/svg', 'text')
+
+    text.setAttribute('x', xMiddle)
+    text.setAttribute('y', yMiddle)
+    text.setAttribute('fill', theme.fontColor)
+    text.setAttribute('text-anchor', 'middle')
+    text.setAttribute('font-family', theme.font)
+
+    text.textContent = label + ', ' + '100%'
+
+    this.#svg.appendChild(text)
   }
 }

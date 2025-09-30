@@ -9,6 +9,7 @@
 | 2.1 Ett meddelande visas om arrayen inte innehåller ett objekt. | Manuellt | ✅ |
 | 2.2 Ett meddelande visas om data-arrayen inte har en "label" som är en string. | Manuellt | ✅ |
 | 2.3 Ett meddelande visas om objekt i data-arrayen inte har ett "value" som är ett nummer.  | Manuellt | ✅ |
+| 2.4 Beskrivning: Ett meddelande visas om objekt i data-arrayen inte har ett "value" med ett positivt nummer. | Manuellt | ✅ |
 
 
 ## Översikt - ThemeManager
@@ -35,7 +36,9 @@
 
 | Vad har testats?                  | Hur har det testats? | Testresultat |
 |-----------------------------------|----------------------|--------------|
-|  |  |  |
-|  |  |  |
+| 1.1 Ett diagram skapas med få tårtbitar, lika många som det finns objekt i rawData-arrayen från Test-app. | Manuellt | ✅ |
+| 1.2 Ett diagram skapas med många tårtbitar, lika många som det finns objekt i rawData-arrayen från Test-app. | Manuellt | ✅ |
+| 1.3 Ett diagram skapas med endast en hel tårta. | Manuellt | ✅ |
+| 2.1 Ett diagram skapas med rätt värden. Diagrammet ska visa en procentsats, som anger hur stor del det "value" utgör av totalen. | Manuellt | ✅ |
 
 

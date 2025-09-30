@@ -3,9 +3,9 @@
  */
 export class ThemeManager {
   /**
-   * Takes a string and 
-   * @param {string} chosenTheme - The
-   * @returns {} - jefls
+   * Takes a string and returns a theme if it is a match.
+   *
+   * @param {string} chosenTheme - The theme requested.
    */
   setTheme (chosenTheme) {
     if (chosenTheme !== 'themeA' && chosenTheme !== 'themeB') {
@@ -18,7 +18,7 @@ export class ThemeManager {
         colorOpacity: 0.2,
         border: 'black',
         borderWidth: '1',
-        font: 'Times new Roman',
+        font: 'Times New Roman',
         fontColor: 'black'
       }
       return themeA

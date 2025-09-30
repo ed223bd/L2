@@ -63,8 +63,18 @@ Steg:
   const rawData = [{ label: 'A', value: 'a' }]
 3. Observera console i webbläsaren.
 
-Förväntad utdata: Ett meddelande "Value needs to be a number".
+Förväntad utdata: Ett meddelande "Value needs to be a non-negative number".
 
+2.4
+Beskrivning: Ett meddelande visas om objekt i data-arrayen inte har ett "value" med ett positivt nummer.
+
+Steg:
+1. Öppna Test-appens app.js och bestäm värden.
+2. Ändra rawData-arrayen till att innehålla ett objekt med felaktigt "value":
+  const rawData = [{ label: 'A', value: -24 }]
+3. Observera console i webbläsaren.
+
+Förväntad utdata: Ett meddelande "Value needs to be a non-negative number".
 
 ### ThemeManager
 
@@ -97,6 +107,7 @@ Förväntad utdata: Ett meddelande "Choose one of the themes available"
 ### BarGraphManager
 
 Förkrav: Det finns en Test-app med en rawData-array av objekt i app.js.
+Förkrav: Test-appens index.html har ett SVG-element med samma id, bredd och höjd som i constructor för BarGraphManager.
 Förkrav: Test-appens index.html är öppnad med Live Server.
 
 #### Testfall 1 - Bredd
@@ -187,6 +198,76 @@ Förväntad utdata: Ett diagram skapas där "label" och "value" stämmer överen
 
 ### PieChartManager
 
+Förkrav: Det finns en Test-app med en rawData-array av objekt i app.js.
+Förkrav: Test-appens index.html har ett SVG-element med samma id, bredd och höjd som i constructor för BarGraphManager.
+Förkrav: Test-appens index.html är öppnad med Live Server.
+
+#### Testfall 1 - Tårtbitars storlek
+
+Test 1.1
+Beskrivning: Ett diagram skapas med få tårtbitar, lika många som det finns objekt i rawData-arrayen från Test-app.
+
+Steg:
+1. Öppna Test-appens app.js och bestäm värden i rawData-arrayen.
+2. Sätt värden till: 
+  { label: 'A', value: 24 },
+  { label: 'B', value: 40 },
+  { label: 'C', value: 12 }
+3. Observera diagrammet i webbläsaren.
+
+Förväntad utdata: 3 tårtbitar skapas.
+![alt text](./img/image6.png)
+
+
+Test 1.2
+Beskrivning: Ett diagram skapas med många tårtbitar, lika många som det finns objekt i rawData-arrayen från Test-app.
+
+Steg:
+1. Öppna Test-appens app.js och bestäm värden i rawData-arrayen.
+2. Sätt värden till: 
+  { label: 'A', value: 24 },
+  { label: 'B', value: 40 },
+  { label: 'C', value: 12 },
+  { label: 'D', value: 26 },
+  { label: 'E', value: 30 },
+  { label: 'F', value: 22 },
+  { label: 'G', value: 28 },
+  { label: 'H', value: 27 },
+  { label: 'I', value: 23 }
+3. Observera diagrammet i webbläsaren.
+
+Förväntad utdata: 9 tårtbitar skapas.
+![alt text](./img/image7.png)
+
+1.3 
+Beskrivning: Ett diagram skapas med endast en hel tårta.
+
+Steg:
+1. Öppna Test-appens app.js och bestäm värden i rawData-arrayen.
+2. Sätt värden till: 
+  { label: 'A', value: 24 }
+3. Observera diagrammet i webbläsaren.
+4. Säkerställ procentsatserna genom att summera "values" och dela ett "value" genom totalen.
+
+Förväntad utdata: En hel tårta visas.
+![alt text](./img/image8.png)
+
+#### Testfall 2 - Värden
+
+Test 2.1 
+Beskrivning: Ett diagram skapas med rätt värden. Diagrammet ska visa en procentsats, som anger hur stor del det "value" utgör av totalen.
+
+Steg:
+1. Öppna Test-appens app.js och bestäm värden i rawData-arrayen.
+2. Sätt värden till: 
+  { label: 'A', value: 24 },
+  { label: 'B', value: 40 },
+  { label: 'C', value: 12 }
+3. Observera diagrammet i webbläsaren.
+4. Säkerställ procentsatserna genom att summera "values" och dela ett "value" genom totalen.
+
+Förväntad utdata: A = 32%, B = 53%, C = 16%
+![alt text](./img/image9.png)
 
 
 
