@@ -1,10 +1,11 @@
 import { ValidationManager, BarGraphManager, PieChartManager, ThemeManager } from '../src/index.js'
 
-// New instances and set values for constructor
 const validationManager = new ValidationManager()
+const themeManager = new ThemeManager()
+
+// Set the id, width and height to the same values as the SVG element.
 const barGraphManager = new BarGraphManager('barGraph', 450, 300)
 const pieChartManager = new PieChartManager('pieChart', 450, 300)
-const themeManager = new ThemeManager()
 
 const rawData = [
   { label: 'A', value: 24 },
@@ -19,7 +20,7 @@ const rawData = [
 ]
 
 const data = validationManager.validateData(rawData)
-const theme = themeManager.setTheme('themeA')
+const theme = themeManager.setTheme('themeB')
 
 // Calling the "create" methods
 barGraphManager.createBarGraph(data, theme)

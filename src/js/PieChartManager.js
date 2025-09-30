@@ -17,8 +17,15 @@ export class PieChartManager {
    * @param {Array} data - An array of objects, set in the app.
    */
   createPieChart (data, theme) {
+    let startAngle = 0
 
-    // Om endast ett värde, rita cirkel och skriv ut label och value
+    const xMiddle = this.#svgWidth / 2
+    const yMiddle = this.#svgHeight / 2
+
+    // If there is only one data object, only draw a circle and print values.
+    if (data.length === 1) {
+      this.#drawCircle(data)
+    }
 
     let sum = 0
     data.forEach(d => {
@@ -26,15 +33,11 @@ export class PieChartManager {
     })
     console.log(sum)
 
-    let startAngle = 0
-
-    const xMiddle = this.#svgWidth / 2
-    const yMiddle = this.#svgHeight / 2
-
     data.forEach(d => {
       const label = d.label
       const value = d.value
       const slice = value / sum
+      const slicePercentage = Math.round(slice * 100)
       // console.log(slice)
 
       const sliceAngle = slice * 2 * Math.PI
@@ -48,7 +51,7 @@ export class PieChartManager {
 
       const xLabel = xMiddle + this.#radius * 1.2 * Math.cos(middleAngle)
       const yLabel = yMiddle + this.#radius * 1.2 * Math.sin(middleAngle)
-      this.#createLabel(middleAngle, xLabel, yLabel, label, value)
+      this.#createLabel(middleAngle, xLabel, yLabel, label, slicePercentage, theme)
 
       // When slice and label has been created, update starting position for next slice
       startAngle += sliceAngle
@@ -85,14 +88,14 @@ export class PieChartManager {
     `
     )
 
-    path.setAttribute('fill', theme.fill)
-    path.setAttribute('fill-opacity', theme.opacity)
+    path.setAttribute('fill', theme.color)
+    path.setAttribute('fill-opacity', theme.colorOpacity)
     path.setAttribute('stroke', theme.border)
     path.setAttribute('stroke-width', theme.borderWidth)
     this.#svg.appendChild(path)
   }
 
-  #createLabel (middleAngle, xLabel, yLabel, label, value) {
+  #createLabel (middleAngle, xLabel, yLabel, label, slicePercentage, theme) {
     const text = document.createElementNS('http://www.w3.org/2000/svg', 'text')
 
     if (Math.cos(middleAngle) > 0) {
@@ -102,20 +105,18 @@ export class PieChartManager {
     }
     text.setAttribute('x', xLabel)
     text.setAttribute('y', yLabel)
+    text.setAttribute('font-family', theme.font)
+    text.setAttribute('fill', theme.fontColor)
 
-    text.textContent = label
+    text.textContent = label + ', ' + slicePercentage + '%'
 
     this.#svg.appendChild(text)
-    this.#drawValue (xLabel, yLabel, value)
   }
 
-  #drawValue (xLabel, yLabel, value) {
-    const valueText = document.createElementNS('http://www.w3.org/2000/svg', 'text')
-
-    valueText.setAttribute('x', xLabel)
-    valueText.setAttribute('y', yLabel + 30)
-    valueText.textContent = value
-
-    this.#svg.appendChild(valueText)
+  #drawCircle (data) {
+    const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle')
+  
+    circle.setAttribute
+  
   }
 }

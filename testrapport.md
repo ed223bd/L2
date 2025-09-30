@@ -11,6 +11,14 @@
 | 2.3 Ett meddelande visas om objekt i data-arrayen inte har ett "value" som är ett nummer.  | Manuellt | ✅ |
 
 
+## Översikt - ThemeManager
+
+| Vad har testats?                  | Hur har det testats? | Testresultat |
+|-----------------------------------|----------------------|--------------|
+| 1.1 Vid ändring av tema, uppdateras diagrammet. | Manuellt | ✅ |
+| 1.2 Vid ej existerande tema, ska ett meddelande visas. | Manuellt | ✅ |
+
+
 
 ## Översikt - BarGraphManager
 
@@ -25,6 +33,8 @@
 
 ## Översikt - PieChartManager
 
+| Vad har testats?                  | Hur har det testats? | Testresultat |
+|-----------------------------------|----------------------|--------------|
 |  |  |  |
 |  |  |  |
 

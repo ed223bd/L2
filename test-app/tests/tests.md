@@ -66,6 +66,34 @@ Steg:
 Förväntad utdata: Ett meddelande "Value needs to be a number".
 
 
+### ThemeManager
+
+#### Testfall 1 - Bestämma tema
+
+Test 1.1 
+Beskrivning: Vid ändring av tema, uppdateras diagrammet.
+
+Steg:
+1. Öppna Test-appens app.js och bestäm värden.
+2. Ändra i den string som skickas till setTheme metoden:
+  const theme = themeManager.setTheme('themeB')
+3. Observera diagrammet i webbläsaren.
+
+Förväntad utdata: Diagrammet uppdateras till det nya temat.
+![alt text](./img/image5.png)
+
+Test 1.2
+Beskrivning: Vid ej existerande tema, ska ett meddelande visas.
+
+Steg:
+1. Öppna Test-appens app.js och bestäm värden.
+2. Ändra i den string som skickas till setTheme metoden:
+  const theme = themeManager.setTheme('themeC')
+3. Observera console i webbläsaren.
+
+Förväntad utdata: Ett meddelande "Choose one of the themes available"
+
+
 ### BarGraphManager
 
 Förkrav: Det finns en Test-app med en rawData-array av objekt i app.js.

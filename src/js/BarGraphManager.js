@@ -31,7 +31,7 @@ export class BarGraphManager {
    * Main method that makes calculations and calls on the drawing.
    *
    * @param {Array} data - The data array with objects.
-   * @param {string} theme - The chosen theme with attributes.
+   * @param {object} theme - The chosen theme with attributes.
    */
   createBarGraph (data, theme) {
     const barWidth = Math.floor((this.#svgWidth - this.#leftMargin) / (data.length * 1.2))
@@ -53,7 +53,7 @@ export class BarGraphManager {
 
       const xLabelPosition = x + barWidth / 2
       const yLabelPosition = this.#svgHeight - this.#margin / 2
-      this.#drawLabel(xLabelPosition, yLabelPosition, label)
+      this.#drawLabel(xLabelPosition, yLabelPosition, label, theme)
 
       const yValuePosition = yLabelPosition * 0.9
       this.#drawValue(xLabelPosition, yValuePosition, value)
@@ -68,20 +68,22 @@ export class BarGraphManager {
     rect.setAttribute('y', y)
     rect.setAttribute('height', barHeight)
     rect.setAttribute('width', barWidth)
-    rect.setAttribute('fill', theme.fill)
-    rect.setAttribute('fill-opacity', theme.opacity)
+    rect.setAttribute('fill', theme.color)
+    rect.setAttribute('fill-opacity', theme.colorOpacity)
     rect.setAttribute('stroke', theme.border)
     rect.setAttribute('stroke-width', theme.borderWidth)
 
     this.#svg.appendChild(rect)
   }
 
-  #drawLabel (xLabelPosition, yLabelPosition, label) {
+  #drawLabel (xLabelPosition, yLabelPosition, label, theme) {
     const text = document.createElementNS('http://www.w3.org/2000/svg', 'text')
 
     text.setAttribute('x', xLabelPosition)
     text.setAttribute('y', yLabelPosition)
     text.setAttribute('text-anchor', 'middle')
+    text.setAttribute('fill', theme.fontColor)
+    text.setAttribute('font-family', theme.font)
     text.textContent = label
 
     // Add new element/s to SVG
