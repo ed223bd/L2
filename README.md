@@ -7,7 +7,7 @@ This module is suitable for smaller diagrams.
 
 ### Example Output
 `'themeA'` to the left and `'themeB'` to the right.
-![Example of graphs and the themes](./documentation/img/photo-collage.png)
+![Example of graphs and the themes](./documentation/img/photo-collage2.png)
 
 
 ## Features
@@ -51,11 +51,6 @@ Set a theme using ThemeManager. The themes available are `'ThemeA'` and `'ThemeB
 At last, create the diagram by passing data and theme parameters into the diagram.
 
 
-## Disclaimer
-
-This is a module that was created as part of the 1dv610 course at Linnaeus University. As it is a student project, it will not be regularly maintained. 
-
-
 ## Dependencies
 
 There are no dependencies in this module, except built-in node functions.
@@ -65,6 +60,10 @@ There are no dependencies in this module, except built-in node functions.
 
 - Vanilla JavaScript
 - Node.js
+
+## Disclaimer
+
+This is a module that was created as part of the 1dv610 course at Linnaeus University. As it is a student project, it will not be regularly maintained. 
 
 
 ## Licence

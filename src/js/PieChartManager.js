@@ -15,6 +15,7 @@ export class PieChartManager {
    * Public method that is the starting point for drawing the pie chart.
    *
    * @param {Array} data - An array of objects, set in the app.
+   * @param {object} theme - The set theme from the app.
    */
   createPieChart (data, theme) {
     let startAngle = 0
