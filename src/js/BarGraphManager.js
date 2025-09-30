@@ -71,6 +71,7 @@ export class BarGraphManager {
     rect.setAttribute('fill', theme.fill)
     rect.setAttribute('fill-opacity', theme.opacity)
     rect.setAttribute('stroke', theme.border)
+    rect.setAttribute('stroke-width', theme.borderWidth)
 
     this.#svg.appendChild(rect)
   }

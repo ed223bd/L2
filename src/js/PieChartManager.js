@@ -16,7 +16,7 @@ export class PieChartManager {
    *
    * @param {Array} data - An array of objects, set in the app.
    */
-  createPieChart (data) {
+  createPieChart (data, theme) {
 
     // Om endast ett värde, rita cirkel och skriv ut label och value
 
@@ -41,7 +41,7 @@ export class PieChartManager {
       console.log(sliceAngle)
 
       // Calls on private method to do the drawing
-      this.#createSlice(xMiddle, yMiddle, startAngle, sliceAngle)
+      this.#createSlice(xMiddle, yMiddle, startAngle, sliceAngle, theme)
 
       // Calls on private method to do the drawing
       const middleAngle = startAngle + sliceAngle / 2
@@ -55,7 +55,7 @@ export class PieChartManager {
     })
   }
 
-  #createSlice (xMiddle, yMiddle, startAngle, sliceAngle) {
+  #createSlice (xMiddle, yMiddle, startAngle, sliceAngle, theme) {
     const xStart = xMiddle + this.#radius * Math.cos(startAngle)
     const yStart = yMiddle + this.#radius * Math.sin(startAngle)
     const xEnd = xMiddle + this.#radius * Math.cos(startAngle + sliceAngle)
@@ -85,10 +85,10 @@ export class PieChartManager {
     `
     )
 
-    path.setAttribute('fill', 'green')
-    path.setAttribute('fill-opacity', 0.5)
-    path.setAttribute('stroke', 'black')
-    path.setAttribute('stroke-width', 2)
+    path.setAttribute('fill', theme.fill)
+    path.setAttribute('fill-opacity', theme.opacity)
+    path.setAttribute('stroke', theme.border)
+    path.setAttribute('stroke-width', theme.borderWidth)
     this.#svg.appendChild(path)
   }
 
