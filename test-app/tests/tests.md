@@ -1,11 +1,77 @@
 # Tester
 
-### BarGraphManager
+### ValidationManager
 
-Förkrav: Det finns en Test-app med en data-array av objekt i app.js.
+Förkrav: Det finns en Test-app med en rawData-array av objekt i app.js.
 Förkrav: Test-appens index.html är öppnad med Live Server.
 
-#### Testfall 1 - bredd
+#### Testfall 1 - Array
+
+Test 1.1
+Beskrivning: Ett meddelande visas om rawData inte är en array, eller om arrayen är tom.
+
+Steg:
+1. Öppna Test-appens app.js och bestäm värden.
+2. Ändra rawData till att vara ett objekt:
+  const rawData = { label: 'A', value: 7 }
+3. Observera console i webbläsaren.
+
+Förväntad utdata: Ett meddelande "Data must be a non-empty array". 
+
+Test 1.2 
+Beskrivning: Ett meddelande visas om data-array är tom.
+
+Steg:
+1. Öppna Test-appens app.js och bestäm värden.
+2. Ändra rawData till en tom array:
+  const rawData = []
+3. Observera console i webbläsaren.
+
+Förväntad utdata: Ett meddelande "Data must be a non-empty array". 
+
+
+#### Testfall 2 - Värden
+
+Test 2.1 
+Beskrivning: Ett meddelande visas om arrayen inte innehåller ett objekt.
+
+Steg:
+1. Öppna Test-appens app.js och bestäm värden.
+2. Ändra rawData till en array utan objekt:
+  const rawData = [1]
+3. Observera console i webbläsaren.
+
+Förväntad utdata: Ett meddelande "Data needs be sent as objects in an array and the object cannot be null".
+
+Test 2.2
+Beskrivning: Ett meddelande visas om data-arrayen inte har en "label" som är en string.
+
+Steg:
+1. Öppna Test-appens app.js och bestäm värden.
+2. Ändra rawData-arrayen till att innehålla ett objekt med felaktig "label":
+  const rawData = [{ l: 1, value: 24 }]
+3. Observera console i webbläsaren.
+
+Förväntad utdata: Ett meddelande "Each label needs to be a string, that is not empty"
+
+2.3 
+Beskrivning: Ett meddelande visas om objekt i data-arrayen inte har ett "value" som är ett nummer. 
+
+Steg:
+1. Öppna Test-appens app.js och bestäm värden.
+2. Ändra rawData-arrayen till att innehålla ett objekt med felaktigt "value":
+  const rawData = [{ label: 'A', value: 'a' }]
+3. Observera console i webbläsaren.
+
+Förväntad utdata: Ett meddelande "Value needs to be a number".
+
+
+### BarGraphManager
+
+Förkrav: Det finns en Test-app med en rawData-array av objekt i app.js.
+Förkrav: Test-appens index.html är öppnad med Live Server.
+
+#### Testfall 1 - Bredd
 
 Test 1.1
 Beskrivning: Ett diagram skapas med få antal staplar, lika många som det finns objekt i rawData-arrayen från Test-app.
@@ -42,7 +108,7 @@ Steg:
 Förväntad utdata: 9 staplar skapas.
 ![alt text](./img/image2.png)
 
-#### Testfall 2 - höjd
+#### Testfall 2 - Höjd
 Test 2.1
 
 Beskrivning: Ett diagram skapas med staplar med högt värde. Staplarnas höjd stämmer överens med axis-linjen till vänster i diagrammet.
@@ -70,7 +136,7 @@ Förväntad utdata: En stapel skapas som når till 7 på axis-linjen.
 
 
 
-#### Testfall 3 - värden
+#### Testfall 3 - Värden
 Test 3.1
 Beskrivning: Ett diagram skapas med rätt "label" och "value".
 Steg:
@@ -95,5 +161,8 @@ Förväntad utdata: Ett diagram skapas där "label" och "value" stämmer överen
 
 
 
-### StatisticsManager
+
+
+
+
 

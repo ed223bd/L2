@@ -1,15 +1,8 @@
-export class StatisticsManager {
-  // Will validate data and split data into
-  // attributes to build graphs from.
-
-  // Validate based on the type of data for each graph?
-  // Line graph: en label, FLERA values?
-  // Bar & Pie: en label, ETT value
-
+export class ValidationManager {
   // Validerar och returnerar data
   validateData (rawData) {
-    if (!Array.isArray(rawData)) {
-      throw new Error('Data must be an array')
+    if (!Array.isArray(rawData) || rawData.length === 0) {
+      throw new Error('Data must be a non-empty array')
     }
 
     rawData.forEach(d => {
