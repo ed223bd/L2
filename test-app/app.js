@@ -27,7 +27,7 @@ const rawData = [
 const data = validationManager.validateData(rawData)
 
 // The available options are 'themeA' or 'themeB'.
-const theme = themeManager.setTheme('themeB')
+const theme = themeManager.setTheme('themeA')
 
 // Creates the diagrams.
 barGraphManager.createBarGraph(data, theme)
