@@ -1,58 +1,45 @@
-I BarGraphManager
-Namnet på mainAxis ( tidigare: yLine, mainYLine)
-
-Namn på metoder, enkla "create"
-Lätt att förstå vad de gör
-
-I loopen för slices, många namn på olika x och y värden. 
-xStart (tidigare: x1, x_start)
-Samma med yStart och ...End för båda.
+# Reflektioner
 
 ## Reflektion över namngivning
 
 | Namn          | Förklaring         | Reflektion och regler från Clean Code  |
 |---------------|--------------------|----------------------------------------|
-| BarGraphManager | Namn på klassen som ansvarar för skapandet av ett bar graph diagram. | 
-|
-|
+| BarGraphManager | Namn på klassen som ansvarar för skapandet av ett bar graph diagram. | **Meaningful Distinctions** namnet "Manager" i klassnamnet bidrar inte till att man förstår klassens syfte bättre än om den bara hade haft namnet "BarGraph". "Manager" är ett så kallat noise word. I stycket med rubrik **Class Names** framkommer det att man bör undvika "Manager" specifikt. |
+| xLabelPosition | Variablel i funktionen createBarGraph i BarGraphManager. | **Use Intention-Revealing Names** i variabelnamnet framgår att xLabelPosition är x-positionen för Label. Variabelnamnet följer regeln **Use Pronounceable Names** i och med att det är lätt uttala och därmed lätt att använda i diskussioner med andra programmerare. |
+| barWidth | Variabel i funktionen createBarGraph i BarGraphManager. |**Use Searchable Names** Klassnamnet är lätt att söka efter, för det finns inget namn i modulen som har ett liknande namn. | 
+| createPieChart | Namn på publik funktion i PieChartManager klassen. | **Use Intention-Revealing Names** i namnet framgår att funktionen skapar ett diagram. Funktionen har dock ett till syfte, att göra vissa uträkningar. Detta framgår inte i funktionsnamnet och ett bättre namn hade kunnat vara calculateAndCreatePieChart. **Don't be cute** Funktionsnamnet följer denna regel, då det är ett namn som alla kan förstå. Om namnet hade varit "fancyPantsBar" hade det brutit mot regeln, då det namnet kanske är kul för några få utvecklare men det är inte logiskt för alla. |
+| highestValue | Namn på en variabel i createBarGraph i BarGraphManager | **Add Meaningful Context** Variabelnamnet highestValue är tydligt i sitt sammanhang, där det definieras som det högsta värdet i data-parameterns objekt. Om vi tar variabelnamnet ur sitt sammanhang, blir det plötligt otydligt vad det är highestValue syftar till. Ett bättre namn hade varit "highestValueInDataArray". |
 
 ### Reflektion över kapitel 2 av Clean Code
+
+Boken Clean Code nämner många regler kring namngivning, som *Don't be cute*, *Use Intention-Revealing Names* och *Add Meaningful Context*. Det är flera regler som alla pekar på samma sak, att namn på klasser, metoder och variabler ska vara logiska. Så många som möjligt ska kunna tolka namnet och namnets syfte rätt. Namn ska inte sättas för att vara roliga, som bara personer inom en viss kultur eller socialt sammanhang förstår.
+
+Boken tar även upp att det är viktigt att använda ett ord per innebörd, *Pick One Word Per Concept*. Det betyder att man ska använda samma ord, exempelvis "add", "create" eller "draw" för ett visst syfte. I min kod har jag delat upp "create" och "draw", i att "create" räknar något och ritar (mer övergripande, generell). Det kan innebära att en create-metod gör en uträkning och ritar ut en del av diagrammet, eller att create-metoden kallar på en egen draw-metod. Ett mer förklarande namn för "createBarGraph" hade kunnat vara "calculateAndDrawBarGraph".
+
 
 
 ## Reflektion över funktioner
 
-| Namn          | Förklaring         | Reflektion och regler från Clean Code  |
+| Namn          | Förklaring         | Antal kodrader | Reflektion och regler från Clean Code  |
 |---------------|--------------------|----------------------------------------|
-| createBarGraph | Namn på den publika funktion som orkestrerar över de privata funktionerna. | **Do One Thing** Denna funktion bryter mot regeln, då den både gör uträkningar och kallar på de privata funktionerna. createBarGraph håller sig till regeln **Function Arguments** då den endast tar två argument. De två argumenten skiljer sig och är inte lätt ihopblandade, något som Clean Code menar är viktigt när en funktion tar flera argument. |
-| drawBar | Namn på en privat funktion i BarGraphManager som ritar ut en stapel. | **Do One Thing** drawBar gör endast en sak, vilket är att rita en stapel baserat på de parametrar som den tar emot. drawBar bryter dock mot **Function Arguments** då den tar emot 5 parametrar, men Clean Code boken säger max 3 parametrar. I detta fall tycker jag att de 5 parametrarna är nödvändiga för att drawBar ska hålla sig till regeln om att endast göra en sak. |
-| drawValue | Namn på en privat funktion i BarGraphManager som ritar ut en text. | **Small** The drawValue is a small function, only a seven lines long. **Verbs and Keywords** The function name, matched with parameter names, makes it clear what is does. It takes the x and y position and on that point, draws the value. |
-| drawCircle | Namn på en privat funktion i PieChartManager som ritar en cirkel och kallar på metoden drawCircleValue. | **Have No Side Effects** drawCircle bryter mot denna regel då den kallar på metoden för att rita ut värden. Clean Code förklarar att det är felaktigt, för att någon skulle kunna kalla på drawCircle och bara vilja ha en cirkel men med den struktur som är bestämd nu får de även med värden. drawCircle borde döpas om till drawCircleAndValue för att undvika förvirring. Ett annat alternativ skulle vara att ta bort drawCircleValue från drawCircle och alltid kalla på dem separat. |
-| setTheme | Namn på en publik funktion i ThemeManager som validerar och bestämmer det tema som diagrammen ska ritas med. | **Blocks and Indenting** i setTheme finns kontrollsatser i form av if-kontroller och enligt Clean Code borde det endast finnas en rad i en sådan. För att uppfylla denna regel, borde jag flytta ut innehållet i if-kontrollerna till egna funktioner och i if-kontrollen endast kalla på de respektive funktionerna. |
+| createBarGraph(data, theme) | Namn på den publika funktion som orkestrerar över de privata funktionerna. | 16 kodrader | **Do One Thing** Denna funktion bryter mot regeln, då den både gör uträkningar och kallar på de privata funktionerna. Tanken var att flera av de privata funktionerna behöver samma parametrar och därför behöver vissa uträkningar göras tidigt i den "orkestrerande" createBarGraph. Därför har den två syften, att göra de uträkningar som används av flera funktioner och att kalla på funktionerna. Om jag inte gjorde uträkningar i createBarGraph, hade flera av de privata metoderna haft samma uträkningar vilket bryter mot **Don't Repeat Yourself**(DRY). createBarGraph håller sig till regeln **Function Arguments** då den endast tar två argument. De två argumenten skiljer sig och är inte lätt ihopblandade, något som Clean Code menar är viktigt när en funktion tar flera argument. |
+| drawBar(x, y, barHeight, barWidth, theme) | Namn på en privat funktion i BarGraphManager som ritar ut en stapel. | 11 kodrader | **Do One Thing** drawBar gör endast en sak, vilket är att rita en stapel baserat på de parametrar som den tar emot. drawBar bryter dock mot **Function Arguments** då den tar emot 5 parametrar, men Clean Code boken säger max 3 parametrar. I detta fall tycker jag att de 5 parametrarna är nödvändiga för att drawBar ska hålla sig till regeln om att endast göra en sak. |
+| drawValue(xLabelPosition, yValuePosition, value) | Namn på en privat funktion i BarGraphManager som ritar ut en text. | 7 kodrader | **Small** The drawValue is a small function, only a seven lines long. **Verbs and Keywords** The function name, matched with parameter names, makes it clear what is does. It takes the x and y position and on that point, draws the value. |
+| drawCircle(xMiddle, yMiddle, label, theme) | Namn på en privat funktion i PieChartManager som ritar en cirkel och kallar på metoden drawCircleValue. | 11 kodrader | **Have No Side Effects** drawCircle bryter mot denna regel då den kallar på metoden för att rita ut värden. Clean Code förklarar att det är felaktigt, för att någon skulle kunna kalla på drawCircle och bara vilja ha en cirkel men med den struktur som är bestämd nu får de även med värden. drawCircle borde döpas om till drawCircleAndValue för att undvika förvirring. Ett annat alternativ skulle vara att ta bort drawCircleValue från drawCircle och alltid kalla på dem separat. |
+| setTheme(chosenTheme) | Namn på en publik funktion i ThemeManager som validerar och bestämmer det tema som diagrammen ska ritas med. | 21 kodrader | **Blocks and Indenting** i setTheme finns kontrollsatser i form av if-kontroller och enligt Clean Code borde det endast finnas en rad i en sådan. För att uppfylla denna regel, borde jag flytta ut innehållet i if-kontrollerna till egna funktioner och i if-kontrollen endast kalla på de respektive funktionerna. |
 
 ### Reflektion över kapitel 3 av Clean Code
 
-FUNCTIONS - Kapitel 3
+I boken Clean Code nämns regeln *Do one Thing* tidigt. Den syftar till att metoder endast ska ha ett syfte, exempelvis skapa, räkna eller rita. Jag har tidigare tänkt att det är en bra struktur att ha en så kallad "huvudmetod" per klass. Efter att ha läst kapitlet om funktioner inser jag att jag behöver tänka om och istället fokusera på vad varje specifik funktion ska göra. Något som fastnade särskilt, var i slutet av kapitlet där Robert Cecil Martin nämner att han sällan skriver koden rätt från början. Istället börjar han ofta med en lång funktion, som han sedan refaktoriserar och ger förklarande namn till. 
 
-- Do one thing, ja, men createBarGraph är "okkestrerande" för att det ska bli enkelt att använda modulen. Om det inte varit en modul, mer uppdelat? I OOP känns det rimligt att ha bara en publik metod som "drar igång" de andra. I min createBarGraph (och createPieChart?) behöver flera funktioner samma parametrar och då behöver uträkningarna finnas i den orkestrerande metoden.
-- None or few function arguments, ja, men för att draw funktionen ska skilja sig från create (med uträkningar), behöver uträkningarna skickas till draw funktionen. Ser poängen i "... testing every combination of values can be daunting."(s. 40). Han gör också en poäng av att många argument lätt blandas ihop (message, expected, actual). I min kod är argumenten inte lika, men de behövs alla för att kunna draw en specifik del.
-- Same nouns, ja. Draw för att ta emot värden och bara rita ut. "create" för när det finns calculations
-- Two arguments are ok if they naturally belong together, like passing a point (x, y) or coordinates (lon, lat). "natural ordering" 
-- In the example of try/catch blocks, making it into smaller funktions makes for a lot of scrolling. I think a short try/catch would be good to keep together, butif there are many lines in the try block, then yes, break it out and use a good name for what the function should "try". He says not to be afraid of using long names.
-- Function names should start with a verb "deleteAllNumbersAndLetters()"
-
+Författaren nämner också en regel *Extract Try/Catch Blocks*, vilken jag håller med om i de fall det är många rader kod i try-blocket. Han ger dock ett exempel där try-blocket endast är 3 rader långt. I de fall det är en väldigt kort metod, tycker jag att koden är mer lättläst om den inte är uppdelad i flera funktioner. Enligt mig är det en skillnad på att dela upp ett try-block och att dela upp en funktion, för att funktioner ska vara namngivna för sitt syfte medan ett try-block alltid heter samma sak.
 
 
 ## Egen reflektion över kodkvalitet
-(ca en halv sida om mina erfarenheter av kodkvalitet)
-Använd begrepp från boken.
-Abstractions, intent, monads, dyads, triads?
-
-
 
 Det verkar finnas en stor gråzon inom kodkvalitet. I vissa typer av system ska man göra på ett sätt, medan det är helt fel i andra system. Från boken Clean Code framgår det att funktioner endast ska göra en sak, men samtidigt ger Robert Cecil Martin exempel på hur man hanterar sido-effekter i en funktion vilken insinuerar att det finns tillfällen då en funktion behöver ha en sido-effekt som den kallar på. 
 
-Den främsta lärdomen jag tar med mig är att dela upp mina funktioner, till mindre delar. Min erfarenhet är att denna utbildning redan från början gett en god insyn i hur man bör namnge variabler och det känns upplyftande att det sätt att namnge som *Clean Code* rekommenderar, är samma sätt som vi har blivit introducerade till tidigt i utbildningen. Det jag tar med mig från den här kursen, gällande namngivning, är att våga bestämma långa namn framförallt på funktioner. Långa variabelnamn kan bli stökigt och försämra readability om det används många gånger i ett kodblock.
+En lärdom jag tar med mig är att dela upp mina funktioner till mindre delar. Min erfarenhet är att denna utbildning redan från början gett en god insyn i hur man bör namnge variabler och det känns upplyftande att det sätt att namnge som *Clean Code* rekommenderar, är samma sätt som vi har blivit introducerade till tidigt i utbildningen. Det jag tar med mig från den här kursen, gällande namngivning, är att våga bestämma långa namn framförallt på funktioner. För långa variabelnamn kan dock bli stökigt och försämra readability om det används många gånger i ett kodblock. Om det är ett för långt namn på en metod, kan det vara ett gott tecken på att funktionen gör för mycket och att det är hög tid att refaktorera.
 
-
-
+Efter att ha läst i boken och funderat över kodkvalitet i mitt eget projekt, finns det mycket jag hade gjort annorlunda om jag hade börjat om på detta projekt. Jag hade planerat in mer tid för att refaktorisera och ändra namn på metoder. Jag hade bestämt mer beskrivande variabelnamn. Det absolut viktigaste är att jag hade skapat en plan för hur de olika klasserna och metoderna ska samspela, för att ha mer tid till att säkerställa kvalitet i slutet av projektet. Tid att arbeta på kodkvalitet kommer inte att finnas, om man inte planerar in det.
 
