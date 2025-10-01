@@ -29,7 +29,8 @@ export class PieChartManager {
     })
     // console.log(sum)
 
-    // If there is only one data object, only draw a circle and print values.
+    // If there is only one data object,
+    // draw a circle and print values.
     if (data.length === 1) {
       data.forEach(d => {
         const label = d.label
@@ -42,22 +43,20 @@ export class PieChartManager {
         const value = d.value
         const slice = value / sum
         const slicePercentage = Math.round(slice * 100)
-        // console.log(slice)
 
         const sliceAngle = slice * 2 * Math.PI
-        // console.log(sliceAngle)
 
         // Calls on private method to do the drawing
         this.#createSlice(xMiddle, yMiddle, startAngle, sliceAngle, theme)
 
-        // Calls on private method to do the drawing
         const middleAngle = startAngle + sliceAngle / 2
 
         const xLabel = xMiddle + this.#radius * 1.2 * Math.cos(middleAngle)
         const yLabel = yMiddle + this.#radius * 1.2 * Math.sin(middleAngle)
         this.#createLabel(middleAngle, xLabel, yLabel, label, slicePercentage, theme)
 
-        // When slice and label has been created, update starting position for next slice
+        // When slice and label have been created,
+        // update starting position for next slice
         startAngle += sliceAngle
       })
     }
@@ -78,13 +77,7 @@ export class PieChartManager {
 
     const path = document.createElementNS('http://www.w3.org/2000/svg', 'path')
 
-    // TODO: remove. Hard coded for static graphics
-    // path.setAttribute('d', `
-    //   M 100 100
-    //   L 150 100
-    //   A radius radius 0 0 1 100 150
-    //   Z
-    // `)
+    // M, L, A and Z are commands for the path element.
     path.setAttribute('d', `
       M ${xMiddle} ${yMiddle}
       L ${xStart} ${yStart}

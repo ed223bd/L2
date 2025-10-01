@@ -21,7 +21,6 @@ export class BarGraphManager {
     this.#svg = document.querySelector(`#${svgId}`)
     this.#svgWidth = width
     this.#svgHeight = height
-    // TODO: Hard coded for now
     this.#margin = this.#svgWidth * 0.1
     this.#leftMargin = this.#svgWidth * 0.12
     this.#topMargin = this.#svgWidth * 0.14
@@ -34,12 +33,11 @@ export class BarGraphManager {
    * @param {object} theme - The chosen theme with attributes.
    */
   createBarGraph (data, theme) {
+    // 1.2 is padding between bars
     const barWidth = Math.floor((this.#svgWidth - this.#leftMargin) / (data.length * 1.2))
     const highestValue = Math.max(...data.map(d => d.value))
 
     data.forEach((d, i) => {
-      // TODO: remove. For debugging
-      // console.log(d.label, d.value)
       const value = d.value
       const label = d.label
 
@@ -55,6 +53,8 @@ export class BarGraphManager {
       const yLabelPosition = this.#svgHeight - this.#margin / 2
       this.#drawLabel(xLabelPosition, yLabelPosition, label, theme)
 
+      // Value y-position is set a bit lower than label
+      // to make it show on the bottom of the bars.
       const yValuePosition = yLabelPosition * 0.9
       this.#drawValue(xLabelPosition, yValuePosition, value)
     })
@@ -86,7 +86,6 @@ export class BarGraphManager {
     text.setAttribute('font-family', theme.font)
     text.textContent = label
 
-    // Add new element/s to SVG
     this.#svg.appendChild(text)
   }
 
@@ -110,8 +109,6 @@ export class BarGraphManager {
     axisLine.setAttribute('y2', this.#svgHeight - this.#margin)
     axisLine.setAttribute('stroke', 'black')
     axisLine.setAttribute('stroke-width', 2)
-
-    // TODO: Om highestvalue är 33 ska streck för 35 skrivas ut
 
     let step
     if (highestValue <= 10) {

@@ -1,5 +1,4 @@
 export class ValidationManager {
-  // Validerar och returnerar data
   validateData (rawData) {
     if (!Array.isArray(rawData) || rawData.length === 0) {
       throw new Error('Data must be a non-empty array')
