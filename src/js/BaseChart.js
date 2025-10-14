@@ -2,20 +2,44 @@
  *
  */
 export class BaseChart {
-  svg
-  svgWidth
-  svgHeight
-  margin
-  leftMargin
-  topMargin
+  #svg
+  #svgWidth
+  #svgHeight
+  #margin
+  #leftMargin
+  #topMargin
 
   constructor (svgId, width, height) {
-    this.svg = document.querySelector(`#${svgId}`)
-    this.svgWidth = width
-    this.svgHeight = height
-    this.margin = this.svgWidth * 0.1
-    this.leftMargin = this.svgWidth * 0.12
-    this.topMargin = this.svgWidth * 0.14
+    this.#svg = document.querySelector(`#${svgId}`)
+    this.#svgWidth = width
+    this.#svgHeight = height
+    this.#margin = this.#svgWidth * 0.1
+    this.#leftMargin = this.#svgWidth * 0.12
+    this.#topMargin = this.#svgWidth * 0.14
+  }
+
+  get svg () {
+    return this.#svg
+  }
+
+  get svgWidth () {
+    return this.#svgWidth
+  }
+
+  get svgHeight () {
+    return this.#svgHeight
+  }
+
+  get margin () {
+    return this.#margin
+  }
+
+  get leftMargin () {
+    return this.#leftMargin
+  }
+
+  get topMargin () {
+    return this.#topMargin
   }
 
   createAxis (highestValue) {
@@ -23,10 +47,10 @@ export class BaseChart {
 
     const step = this.#assignStepValue()
 
-    for (let n = 0; n <= highestValue; n += step) {
-      const y = this.svgHeight - this.margin - (n / highestValue) * (this.svgHeight - this.margin - this.topMargin)
+    for (let i = 0; i <= highestValue; i += step) {
+      const y = this.svgHeight - this.margin - (i / highestValue) * (this.svgHeight - this.margin - this.topMargin)
 
-      this.#drawMinorAxisLines(y, n)
+      this.#drawMinorAxisLines(y, i)
     }
   }
 
@@ -55,7 +79,7 @@ export class BaseChart {
     this.svg.appendChild(axisLine)
   }
 
-  #drawMinorAxisLines (y, n) {
+  #drawMinorAxisLines (y, i) {
     const minorLines = document.createElementNS('http://www.w3.org/2000/svg', 'line')
 
     minorLines.setAttribute('x1', 5)
@@ -69,7 +93,7 @@ export class BaseChart {
 
     minorLinesLabel.setAttribute('x', 15)
     minorLinesLabel.setAttribute('y', y + 5)
-    minorLinesLabel.textContent = n
+    minorLinesLabel.textContent = i
 
     this.svg.appendChild(minorLines)
     this.svg.appendChild(minorLinesLabel)
