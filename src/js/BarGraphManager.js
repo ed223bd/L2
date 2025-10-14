@@ -1,15 +1,10 @@
+import { BaseChart } from './BaseChart.js'
+
 /**
  * Class that creates a Bar Graph diagram by looping through each data
  * object in an array and drawing to the SVG element.
  */
-export class BarGraphManager {
-  #svg
-  #svgWidth
-  #svgHeight
-  #margin
-  #leftMargin
-  #topMargin
-
+export class BarGraphManager extends BaseChart {
   /**
    * Sets the size of the bar graph SVG element for calculations.
    *
@@ -18,12 +13,7 @@ export class BarGraphManager {
    * @param {number} height - The height to make calculations from.
    */
   constructor (svgId, width, height) {
-    this.#svg = document.querySelector(`#${svgId}`)
-    this.#svgWidth = width
-    this.#svgHeight = height
-    this.#margin = this.#svgWidth * 0.1
-    this.#leftMargin = this.#svgWidth * 0.12
-    this.#topMargin = this.#svgWidth * 0.14
+    super(svgId, width, height)
   }
 
   /**
@@ -34,23 +24,23 @@ export class BarGraphManager {
    */
   createBarGraph (data, theme) {
     // 1.2 is padding between bars
-    const barWidth = Math.floor((this.#svgWidth - this.#leftMargin) / (data.length * 1.2))
+    const barWidth = Math.floor((this.svgWidth - this.leftMargin) / (data.length * 1.2))
     const highestValue = Math.max(...data.map(d => d.value))
 
     data.forEach((d, i) => {
       const value = d.value
       const label = d.label
 
-      const barHeight = (value / highestValue) * (this.#svgHeight - this.#margin - this.#topMargin)
+      const barHeight = (value / highestValue) * (this.svgHeight - this.margin - this.topMargin)
 
       // 1.2 is padding between bars
-      const x = this.#leftMargin + i * 1.2 * barWidth
-      const y = (this.#svgHeight - barHeight - this.#margin)
+      const x = this.leftMargin + i * 1.2 * barWidth
+      const y = (this.svgHeight - barHeight - this.margin)
 
       this.#drawBar(x, y, barHeight, barWidth, theme)
 
       const xLabelPosition = x + barWidth / 2
-      const yLabelPosition = this.#svgHeight - this.#margin / 2
+      const yLabelPosition = this.svgHeight - this.margin / 2
       this.#drawLabel(xLabelPosition, yLabelPosition, label, theme)
 
       // Value y-position is set a bit lower than label
@@ -58,7 +48,7 @@ export class BarGraphManager {
       const yValuePosition = yLabelPosition * 0.9
       this.#drawValue(xLabelPosition, yValuePosition, value)
     })
-    this.#createAxis(highestValue)
+    this.createAxis(highestValue)
   }
 
   #drawBar (x, y, barHeight, barWidth, theme) {
@@ -73,7 +63,7 @@ export class BarGraphManager {
     rect.setAttribute('stroke', theme.border)
     rect.setAttribute('stroke-width', theme.borderWidth)
 
-    this.#svg.appendChild(rect)
+    this.svg.appendChild(rect)
   }
 
   #drawLabel (xLabelPosition, yLabelPosition, label, theme) {
@@ -86,7 +76,7 @@ export class BarGraphManager {
     text.setAttribute('font-family', theme.font)
     text.textContent = label
 
-    this.#svg.appendChild(text)
+    this.svg.appendChild(text)
   }
 
   #drawValue (xLabelPosition, yValuePosition, value) {
@@ -97,49 +87,6 @@ export class BarGraphManager {
     valueText.setAttribute('text-anchor', 'middle')
     valueText.textContent = value
 
-    this.#svg.appendChild(valueText)
-  }
-
-  #createAxis (highestValue) {
-    const axisLine = document.createElementNS('http://www.w3.org/2000/svg', 'line')
-
-    axisLine.setAttribute('x1', 10)
-    axisLine.setAttribute('x2', 10)
-    axisLine.setAttribute('y1', 10)
-    axisLine.setAttribute('y2', this.#svgHeight - this.#margin)
-    axisLine.setAttribute('stroke', 'black')
-    axisLine.setAttribute('stroke-width', 2)
-
-    let step
-    if (highestValue <= 10) {
-      step = 1
-    } else if (highestValue > 10 && highestValue <= 100) {
-      step = 5
-    } else {
-      step = 10
-    }
-
-    for (let n = 0; n <= highestValue; n += step) {
-      const y = this.#svgHeight - this.#margin - (n / highestValue) * (this.#svgHeight - this.#margin - this.#topMargin)
-
-      const minorLines = document.createElementNS('http://www.w3.org/2000/svg', 'line')
-
-      minorLines.setAttribute('x1', 5)
-      minorLines.setAttribute('y1', y)
-      minorLines.setAttribute('x2', 15)
-      minorLines.setAttribute('y2', y)
-      minorLines.setAttribute('stroke', 'black')
-      minorLines.setAttribute('stroke-width', 1)
-
-      const minorLinesLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text')
-
-      minorLinesLabel.setAttribute('x', 15)
-      minorLinesLabel.setAttribute('y', y + 5)
-      minorLinesLabel.textContent = n
-
-      this.#svg.appendChild(minorLines)
-      this.#svg.appendChild(minorLinesLabel)
-    }
-    this.#svg.appendChild(axisLine)
+    this.svg.appendChild(valueText)
   }
 }
