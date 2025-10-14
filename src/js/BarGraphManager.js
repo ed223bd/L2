@@ -12,6 +12,7 @@ export class BarGraphManager extends BaseChart {
    * @param {number} width - The width to make calculations from.
    * @param {number} height - The height to make calculations from.
    */
+  // TODO: remove? lint says unneccessary
   constructor (svgId, width, height) {
     super(svgId, width, height)
   }

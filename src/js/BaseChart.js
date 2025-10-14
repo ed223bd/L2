@@ -19,6 +19,30 @@ export class BaseChart {
   }
 
   createAxis (highestValue) {
+    this.#drawMainAxisLine()
+
+    const step = this.#assignStepValue()
+
+    for (let n = 0; n <= highestValue; n += step) {
+      const y = this.svgHeight - this.margin - (n / highestValue) * (this.svgHeight - this.margin - this.topMargin)
+
+      this.#drawMinorAxisLines(y, n)
+    }
+  }
+
+  #assignStepValue (highestValue) {
+    let step
+    if (highestValue <= 10) {
+      step = 1
+    } else if (highestValue > 10 && highestValue <= 100) {
+      step = 5
+    } else {
+      step = 10
+    }
+    return step
+  }
+
+  #drawMainAxisLine () {
     const axisLine = document.createElementNS('http://www.w3.org/2000/svg', 'line')
 
     axisLine.setAttribute('x1', 10)
@@ -28,36 +52,26 @@ export class BaseChart {
     axisLine.setAttribute('stroke', 'black')
     axisLine.setAttribute('stroke-width', 2)
 
-    let step
-    if (highestValue <= 10) {
-      step = 1
-    } else if (highestValue > 10 && highestValue <= 100) {
-      step = 5
-    } else {
-      step = 10
-    }
-
-    for (let n = 0; n <= highestValue; n += step) {
-      const y = this.svgHeight - this.margin - (n / highestValue) * (this.svgHeight - this.margin - this.topMargin)
-
-      const minorLines = document.createElementNS('http://www.w3.org/2000/svg', 'line')
-
-      minorLines.setAttribute('x1', 5)
-      minorLines.setAttribute('y1', y)
-      minorLines.setAttribute('x2', 15)
-      minorLines.setAttribute('y2', y)
-      minorLines.setAttribute('stroke', 'black')
-      minorLines.setAttribute('stroke-width', 1)
-
-      const minorLinesLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text')
-
-      minorLinesLabel.setAttribute('x', 15)
-      minorLinesLabel.setAttribute('y', y + 5)
-      minorLinesLabel.textContent = n
-
-      this.svg.appendChild(minorLines)
-      this.svg.appendChild(minorLinesLabel)
-    }
     this.svg.appendChild(axisLine)
+  }
+
+  #drawMinorAxisLines (y, n) {
+    const minorLines = document.createElementNS('http://www.w3.org/2000/svg', 'line')
+
+    minorLines.setAttribute('x1', 5)
+    minorLines.setAttribute('y1', y)
+    minorLines.setAttribute('x2', 15)
+    minorLines.setAttribute('y2', y)
+    minorLines.setAttribute('stroke', 'black')
+    minorLines.setAttribute('stroke-width', 1)
+
+    const minorLinesLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text')
+
+    minorLinesLabel.setAttribute('x', 15)
+    minorLinesLabel.setAttribute('y', y + 5)
+    minorLinesLabel.textContent = n
+
+    this.svg.appendChild(minorLines)
+    this.svg.appendChild(minorLinesLabel)
   }
 }

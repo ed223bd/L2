@@ -1,1 +1,5 @@
+# Node modules unnecessary to commit
 node_modules
+
+# Tool to count lines
+.VSCodeCounter
