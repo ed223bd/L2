@@ -1,5 +1,6 @@
 /**
- *
+ * Sets private fields for BarGraphManager and LineGraphManager.
+ * Creates the y-axis with the height of the largest value.
  */
 export class BaseChart {
   #svg
