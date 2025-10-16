@@ -20,8 +20,7 @@ export class LineGraphManager extends BaseChart {
 
     this.createAxis(highestValue)
 
-    let startingPointX = this.leftMargin
-
+    // let startingPointX = this.leftMargin
 
     for (let i = 0; i < data.length - 1; i++) {
       const value = data[i].value
@@ -31,20 +30,28 @@ export class LineGraphManager extends BaseChart {
       const heightOfPoint = Math.floor(value / highestValue * (this.svgHeight - this.topMargin - this.margin))
       const heightOfNextPoint = Math.floor(data[i + 1].value / highestValue * (this.svgHeight - this.topMargin - this.margin))
 
-      startingPointX += spaceBetweenPoints * i
+      let startingPointX = 0
+      if (i === 0) {
+        startingPointX = this.leftMargin
+      } else {
+        startingPointX += spaceBetweenPoints * i
+      }
+      console.log(startingPointX)
 
-      const startingPointY = this.svgHeight - heightOfPoint
-      const nextPointY = this.svgHeight - heightOfNextPoint
+      const nextPointX = spaceBetweenPoints * (i + 1)
 
-      console.log(heightOfPoint)
+      const startingPointY = this.svgHeight - heightOfPoint - this.margin
+      const nextPointY = this.svgHeight - heightOfNextPoint - this.margin
 
-      console.log(startingPointX, startingPointY, spaceBetweenPoints, nextPointY)
+      // console.log(heightOfPoint)
 
-      this.#drawLine(startingPointX, startingPointY, spaceBetweenPoints, nextPointY, theme)
+      // console.log(startingPointX, startingPointY, spaceBetweenPoints, nextPointY)
+
+      this.#drawLine(startingPointX, startingPointY, nextPointX, nextPointY, theme)
     }
   }
 
-  #drawLine(startingPointX, startingPointY, spaceBetweenPoints, nextPointY, theme) {
+  #drawLine(startingPointX, startingPointY, nextPointX, nextPointY, theme) {
 
     // path eller flera line?
     // Path: M(moveto), L(lineto), Z(close)
@@ -55,7 +62,7 @@ export class LineGraphManager extends BaseChart {
 
     path.setAttribute('d', `
       M ${startingPointX} ${startingPointY}
-      L ${spaceBetweenPoints} ${nextPointY}
+      L ${nextPointX} ${nextPointY}
     `)
     path.setAttribute('fill', 'none')
     path.setAttribute('stroke', theme.color)
