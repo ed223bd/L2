@@ -12,16 +12,22 @@ const lineGraphManager = new LineGraphManager('lineGraph', 450, 300)
 const pieChartManager = new PieChartManager('pieChart', 450, 300)
 
 // Setting the data to create diagrams from.
+// const rawData = [
+//   { label: 'A', value: 24 },
+//   { label: 'B', value: 40 },
+//   { label: 'C', value: 12 },
+//   { label: 'D', value: 26 },
+//   { label: 'E', value: 30 },
+//   { label: 'F', value: 22 },
+//   { label: 'G', value: 28 },
+//   { label: 'H', value: 27 },
+//   { label: 'I', value: 23 }
+// ]
+
 const rawData = [
   { label: 'A', value: 24 },
   { label: 'B', value: 40 },
-  { label: 'C', value: 12 },
-  { label: 'D', value: 26 },
-  { label: 'E', value: 30 },
-  { label: 'F', value: 22 },
-  { label: 'G', value: 28 },
-  { label: 'H', value: 27 },
-  { label: 'I', value: 23 }
+  { label: 'C', value: 12 }
 ]
 
 // Validates the data before it is passed on to diagrams.
