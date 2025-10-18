@@ -22,23 +22,37 @@ export class LineGraphManager extends BaseChart {
 
     // let startingPointX = this.leftMargin
 
-    for (let i = 0; i < data.length - 1; i++) {
+    let startingPointX = 0
+
+    for (let i = 0; i < data.length; i++) {
       const value = data[i].value
       const label = data[i].label
-      console.log(value, label)
+      // console.log(value, label)
 
       const heightOfPoint = Math.floor(value / highestValue * (this.svgHeight - this.topMargin - this.margin))
-      const heightOfNextPoint = Math.floor(data[i + 1].value / highestValue * (this.svgHeight - this.topMargin - this.margin))
 
-      let startingPointX = 0
-      if (i === 0) {
-        startingPointX = this.leftMargin
+      let heightOfNextPoint
+      if (i === data.length - 1) {
+        // To make the last line into just a point
+        heightOfNextPoint = heightOfPoint
       } else {
-        startingPointX += spaceBetweenPoints * i
+        heightOfNextPoint = Math.floor(data[i + 1].value / highestValue * (this.svgHeight - this.topMargin - this.margin))
       }
-      console.log(startingPointX)
 
-      const nextPointX = spaceBetweenPoints * (i + 1)
+      if (i === 0) {
+        startingPointX += this.leftMargin
+      } else if (i === data.length) {
+        startingPointX += 0
+      } else {
+        startingPointX += spaceBetweenPoints
+      }
+
+      let nextPointX
+      if (i === data.length - 1) {
+        nextPointX = startingPointX
+      } else {
+        nextPointX = startingPointX + spaceBetweenPoints
+      }
 
       const startingPointY = this.svgHeight - heightOfPoint - this.margin
       const nextPointY = this.svgHeight - heightOfNextPoint - this.margin
@@ -48,6 +62,8 @@ export class LineGraphManager extends BaseChart {
       // console.log(startingPointX, startingPointY, spaceBetweenPoints, nextPointY)
 
       this.#drawLine(startingPointX, startingPointY, nextPointX, nextPointY, theme)
+      this.#drawValue(startingPointX, startingPointY, value, theme)
+      this.#drawLabel(startingPointX, label, theme)
     }
   }
 
@@ -72,5 +88,25 @@ export class LineGraphManager extends BaseChart {
     this.svg.appendChild(path)
   }
 
-  // #drawValue ()
+  #drawValue (startingPointX, startingPointY, value, theme) {
+    const valueText = document.createElementNS('http://www.w3.org/2000/svg', 'text')
+
+    valueText.setAttribute('x', startingPointX)
+    valueText.setAttribute('y', startingPointY)
+    valueText.setAttribute('text-anchor', 'middle')
+    valueText.textContent = value
+
+    this.svg.appendChild(valueText)
+  }
+
+  #drawLabel (startingPointX, label, theme) {
+    const labelText = document.createElementNS('http://www.w3.org/2000/svg', 'text')
+
+    labelText.setAttribute('x', startingPointX)
+    labelText.setAttribute('y', 250)
+    labelText.setAttribute('text-anchor', 'middle')
+    labelText.textContent = label
+
+    this.svg.appendChild(labelText)
+  }
 }

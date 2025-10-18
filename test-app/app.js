@@ -27,7 +27,9 @@ const rawData = [
 // const rawData = [
 //   { label: 'A', value: 24 },
 //   { label: 'B', value: 40 },
-//   { label: 'C', value: 12 }
+//   { label: 'C', value: 24 },
+//   { label: 'D', value: 40 },
+//   { label: 'E', value: 24 }
 // ]
 
 // Validates the data before it is passed on to diagrams.
