@@ -44,12 +44,12 @@ export class BarGraphManager extends BaseChart {
       const yLabelPosition = this.svgHeight - this.margin / 2
       this.#drawLabel(xLabelPosition, yLabelPosition, label, theme, fontSize)
 
-      // Value y-position is set a bit lower than label
-      // to make it show on the bottom of the bars.
-      const yValuePosition = yLabelPosition * 0.9
-      this.#drawValue(xLabelPosition, yValuePosition, value, fontSize)
+      // Value y-position is set to above the bars. 1.2 is to give
+      // a small space between bars and values
+      const yValuePosition = this.svgHeight - barHeight - this.margin * 1.2
+      this.#drawValue(xLabelPosition, yValuePosition, value, theme, fontSize)
     })
-    this.createAxis(highestValue, fontSize)
+    this.createAxis(highestValue, theme, fontSize)
   }
 
   #drawBar (x, y, barHeight, barWidth, theme) {
@@ -82,14 +82,14 @@ export class BarGraphManager extends BaseChart {
     this.svg.appendChild(text)
   }
 
-  #drawValue (xLabelPosition, yValuePosition, value, fontSize) {
+  #drawValue (xLabelPosition, yValuePosition, value, theme, fontSize) {
     const valueText = document.createElementNS('http://www.w3.org/2000/svg', 'text')
 
     valueText.setAttribute('x', xLabelPosition)
     valueText.setAttribute('y', yValuePosition)
     valueText.setAttribute('text-anchor', 'middle')
+    valueText.setAttribute('font-family', theme.font)
     valueText.setAttribute('font-size', fontSize)
-
     valueText.textContent = value
 
     this.svg.appendChild(valueText)

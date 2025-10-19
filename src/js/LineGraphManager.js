@@ -18,7 +18,7 @@ export class LineGraphManager extends BaseChart {
     const spaceBetweenPoints = (this.svgWidth - this.margin) / data.length
     const highestValue = Math.max(...data.map(d => d.value))
 
-    this.createAxis(highestValue, fontSize)
+    this.createAxis(highestValue, theme, fontSize)
 
     // let startingPointX = this.leftMargin
 
@@ -96,6 +96,7 @@ export class LineGraphManager extends BaseChart {
     valueText.setAttribute('x', startingPointX)
     valueText.setAttribute('y', startingPointY)
     valueText.setAttribute('text-anchor', 'middle')
+    valueText.setAttribute('font-family', theme.font)
     valueText.setAttribute('font-size', fontSize)
     valueText.textContent = value
 
@@ -108,6 +109,7 @@ export class LineGraphManager extends BaseChart {
     labelText.setAttribute('x', startingPointX)
     labelText.setAttribute('y', labelHeight)
     labelText.setAttribute('text-anchor', 'middle')
+    labelText.setAttribute('font-family', theme.font)
     labelText.setAttribute('font-size', fontSize)
     labelText.textContent = label
 
