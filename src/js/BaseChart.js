@@ -43,7 +43,7 @@ export class BaseChart {
     return this.#topMargin
   }
 
-  createAxis (highestValue) {
+  createAxis (highestValue, fontSize) {
     this.#drawMainAxisLine()
 
     const step = this.#assignStepValue()
@@ -52,6 +52,10 @@ export class BaseChart {
       const y = this.svgHeight - this.margin - (i / highestValue) * (this.svgHeight - this.margin - this.topMargin)
 
       this.#drawMinorAxisLines(y, i)
+      this.#drawMinorAxisLinesLabels(y, i, fontSize)
+
+      // TODO: Add an extra step om highestValue
+      // is more than the last step
     }
   }
 
@@ -90,13 +94,18 @@ export class BaseChart {
     minorLines.setAttribute('stroke', 'black')
     minorLines.setAttribute('stroke-width', 1)
 
+    this.svg.appendChild(minorLines)
+  }
+
+  #drawMinorAxisLinesLabels (y, i, fontSize) {
     const minorLinesLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text')
 
     minorLinesLabel.setAttribute('x', 15)
     minorLinesLabel.setAttribute('y', y + 5)
+    minorLinesLabel.setAttribute('font-size', fontSize)
+
     minorLinesLabel.textContent = i
 
-    this.svg.appendChild(minorLines)
     this.svg.appendChild(minorLinesLabel)
   }
 }

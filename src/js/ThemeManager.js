@@ -36,4 +36,14 @@ export class ThemeManager {
       return themeB
     }
   }
+
+  setFontSize (chosenSize) {
+    if (typeof chosenSize !== 'string') {
+      throw new Error('Font size needs to be a string in the format "15px')
+    }
+
+    const fontSize = chosenSize
+
+    return fontSize
+  }
 }

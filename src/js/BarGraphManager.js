@@ -23,7 +23,7 @@ export class BarGraphManager extends BaseChart {
    * @param {Array} data - The data array with objects.
    * @param {object} theme - The chosen theme with attributes.
    */
-  createBarGraph (data, theme) {
+  createBarGraph (data, theme, fontSize) {
     // 1.2 is padding between bars
     const barWidth = Math.floor((this.svgWidth - this.leftMargin) / (data.length * 1.2))
     const highestValue = Math.max(...data.map(d => d.value))
@@ -42,14 +42,14 @@ export class BarGraphManager extends BaseChart {
 
       const xLabelPosition = x + barWidth / 2
       const yLabelPosition = this.svgHeight - this.margin / 2
-      this.#drawLabel(xLabelPosition, yLabelPosition, label, theme)
+      this.#drawLabel(xLabelPosition, yLabelPosition, label, theme, fontSize)
 
       // Value y-position is set a bit lower than label
       // to make it show on the bottom of the bars.
       const yValuePosition = yLabelPosition * 0.9
-      this.#drawValue(xLabelPosition, yValuePosition, value)
+      this.#drawValue(xLabelPosition, yValuePosition, value, fontSize)
     })
-    this.createAxis(highestValue)
+    this.createAxis(highestValue, fontSize)
   }
 
   #drawBar (x, y, barHeight, barWidth, theme) {
@@ -67,7 +67,7 @@ export class BarGraphManager extends BaseChart {
     this.svg.appendChild(rect)
   }
 
-  #drawLabel (xLabelPosition, yLabelPosition, label, theme) {
+  #drawLabel (xLabelPosition, yLabelPosition, label, theme, fontSize) {
     const text = document.createElementNS('http://www.w3.org/2000/svg', 'text')
 
     text.setAttribute('x', xLabelPosition)
@@ -75,17 +75,21 @@ export class BarGraphManager extends BaseChart {
     text.setAttribute('text-anchor', 'middle')
     text.setAttribute('fill', theme.fontColor)
     text.setAttribute('font-family', theme.font)
+    text.setAttribute('font-size', fontSize)
+
     text.textContent = label
 
     this.svg.appendChild(text)
   }
 
-  #drawValue (xLabelPosition, yValuePosition, value) {
+  #drawValue (xLabelPosition, yValuePosition, value, fontSize) {
     const valueText = document.createElementNS('http://www.w3.org/2000/svg', 'text')
 
     valueText.setAttribute('x', xLabelPosition)
     valueText.setAttribute('y', yValuePosition)
     valueText.setAttribute('text-anchor', 'middle')
+    valueText.setAttribute('font-size', fontSize)
+
     valueText.textContent = value
 
     this.svg.appendChild(valueText)

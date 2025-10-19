@@ -12,13 +12,13 @@ export class LineGraphManager extends BaseChart {
   /**
    *
    */
-  createLineGraph (data, theme) {
+  createLineGraph (data, theme, fontSize) {
     // console.log(data)
 
     const spaceBetweenPoints = (this.svgWidth - this.margin) / data.length
     const highestValue = Math.max(...data.map(d => d.value))
 
-    this.createAxis(highestValue)
+    this.createAxis(highestValue, fontSize)
 
     // let startingPointX = this.leftMargin
 
@@ -61,9 +61,11 @@ export class LineGraphManager extends BaseChart {
 
       // console.log(startingPointX, startingPointY, spaceBetweenPoints, nextPointY)
 
+      const labelHeight = this.svgHeight - this.margin / 2
+
       this.#drawLine(startingPointX, startingPointY, nextPointX, nextPointY, theme)
-      this.#drawValue(startingPointX, startingPointY, value, theme)
-      this.#drawLabel(startingPointX, label, theme)
+      this.#drawValue(startingPointX, startingPointY, value, theme, fontSize)
+      this.#drawLabel(startingPointX, labelHeight, label, theme, fontSize)
     }
   }
 
@@ -88,23 +90,25 @@ export class LineGraphManager extends BaseChart {
     this.svg.appendChild(path)
   }
 
-  #drawValue (startingPointX, startingPointY, value, theme) {
+  #drawValue (startingPointX, startingPointY, value, theme, fontSize) {
     const valueText = document.createElementNS('http://www.w3.org/2000/svg', 'text')
 
     valueText.setAttribute('x', startingPointX)
     valueText.setAttribute('y', startingPointY)
     valueText.setAttribute('text-anchor', 'middle')
+    valueText.setAttribute('font-size', fontSize)
     valueText.textContent = value
 
     this.svg.appendChild(valueText)
   }
 
-  #drawLabel (startingPointX, label, theme) {
+  #drawLabel (startingPointX, labelHeight, label, theme, fontSize) {
     const labelText = document.createElementNS('http://www.w3.org/2000/svg', 'text')
 
     labelText.setAttribute('x', startingPointX)
-    labelText.setAttribute('y', 250)
+    labelText.setAttribute('y', labelHeight)
     labelText.setAttribute('text-anchor', 'middle')
+    labelText.setAttribute('font-size', fontSize)
     labelText.textContent = label
 
     this.svg.appendChild(labelText)
