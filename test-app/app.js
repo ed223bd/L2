@@ -1,4 +1,4 @@
-import { ValidationManager, BarGraphManager, LineGraphManager, PieChartManager, ThemeManager } from '../src/index.js'
+import { ValidationManager, BarGraphManager, LineGraphManager, ThemeManager } from '../src/index.js'
 
 // Instantiating the classes for validation
 // and setting the theme.
@@ -9,27 +9,18 @@ const themeManager = new ThemeManager()
 // as the SVG element in the app's index.html.
 const barGraphManager = new BarGraphManager('barGraph', 450, 300)
 const lineGraphManager = new LineGraphManager('lineGraph', 450, 300)
-const pieChartManager = new PieChartManager('pieChart', 450, 300)
 
-// Setting the data to create diagrams from.
-// const rawData = [
-//   { label: 'A', value: 24 },
-//   { label: 'B', value: 40 },
-//   { label: 'C', value: 12 },
-//   { label: 'D', value: 26 },
-//   { label: 'E', value: 30 },
-//   { label: 'F', value: 22 },
-//   { label: 'G', value: 28 },
-//   { label: 'H', value: 27 },
-//   { label: 'I', value: 23 }
-// ]
-
+// Set the data to create diagrams from.
 const rawData = [
   { label: 'A', value: 24 },
-  { label: 'B', value: 42 },
-  { label: 'C', value: 32 },
-  { label: 'D', value: 2 },
-  { label: 'E', value: 8 }
+  { label: 'B', value: 40 },
+  { label: 'C', value: 12 },
+  { label: 'D', value: 26 },
+  { label: 'E', value: 30 },
+  { label: 'F', value: 22 },
+  { label: 'G', value: 28 },
+  { label: 'H', value: 27 },
+  { label: 'I', value: 23 }
 ]
 
 // Validate the data before it is passed on to diagrams.
@@ -38,10 +29,9 @@ const data = validationManager.validateData(rawData)
 // The available options are 'themeA' or 'themeB'.
 const theme = themeManager.setTheme('themeA')
 
-// Choose your font size
-const fontSize = themeManager.setFontSize('15px')
+// Choose font size
+const fontSize = themeManager.setFontSize(15)
 
-// Creates the diagrams.
+// Create the diagrams
 barGraphManager.createBarGraph(data, theme, fontSize)
 lineGraphManager.createLineGraph(data, theme, fontSize)
-pieChartManager.createPieChart(data, theme)

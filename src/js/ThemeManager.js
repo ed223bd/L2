@@ -3,7 +3,7 @@
  */
 export class ThemeManager {
   /**
-   * Takes a string and returns a theme if it is a match.
+   * Takes a string and returns a predefined theme if it is a match.
    *
    * @param {string} chosenTheme - The theme requested.
    */
@@ -27,10 +27,10 @@ export class ThemeManager {
     if (chosenTheme === 'themeB') {
       const themeB = {
         color: 'green',
-        colorOpacity: 0.5,
+        colorOpacity: 0.4,
         border: 'darkgreen',
         borderWidth: '2',
-        font: 'Arial',
+        font: 'Papyrus',
         fontColor: 'black'
       }
       return themeB
@@ -38,12 +38,15 @@ export class ThemeManager {
   }
 
   setFontSize (chosenSize) {
-    if (typeof chosenSize !== 'string') {
-      throw new Error('Font size needs to be a string in the format "15px')
+    if (typeof chosenSize !== 'number') {
+      throw new Error('Font size needs to be a number.')
+    }
+
+    if (chosenSize <= 0) {
+      throw new Error('Font size needs to a positive number and not 0.')
     }
 
     const fontSize = chosenSize
-
     return fontSize
   }
 }
