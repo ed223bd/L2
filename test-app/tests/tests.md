@@ -1,9 +1,12 @@
 # Tester
 
-### ValidationManager
+### Förkrav
 
 Förkrav: Det finns en Test-app med en rawData-array av objekt i app.js.
+Förkrav: Test-appens index.html har ett SVG-element med samma id, bredd och höjd som i constructor för BarGraphManager.
 Förkrav: Test-appens index.html är öppnad med Live Server.
+
+### ValidationManager
 
 #### Testfall 1 - Array
 
@@ -78,13 +81,25 @@ Förväntad utdata: Ett meddelande "Value needs to be a non-negative number".
 
 ### ThemeManager
 
+#### Förkrav
+ThemeA är valt i app.js 
+```javascript
+const theme = themeManager.setTheme('themeA')
+```
+
+Teckenstorlek är bestämt i app.js
+```javascript
+const fontSize = themeManager.setFontSize(15)
+```
+
+
 #### Testfall 1 - Bestämma tema
 
 Test 1.1 
 Beskrivning: Vid ändring av tema, uppdateras diagrammet.
 
 Steg:
-1. Öppna Test-appens app.js och bestäm värden.
+1. Öppna Test-appens app.js.
 2. Ändra i den string som skickas till setTheme metoden:
   const theme = themeManager.setTheme('themeB')
 3. Observera diagrammet i webbläsaren.
@@ -96,19 +111,82 @@ Test 1.2
 Beskrivning: Vid ej existerande tema, ska ett meddelande visas.
 
 Steg:
-1. Öppna Test-appens app.js och bestäm värden.
+1. Öppna Test-appens app.js.
 2. Ändra i den string som skickas till setTheme metoden:
   const theme = themeManager.setTheme('themeC')
 3. Observera console i webbläsaren.
 
 Förväntad utdata: Ett meddelande "Choose one of the themes available"
 
+#### Testfall 2 - Bestämma teckenstorlek
+
+Test 2.1
+Beskrivning: Teckenstorlek uppdateras för labels och values.
+
+Steg:
+1. Öppna Test-appens app.js.
+2. Ändra i numret som skickas till setFontSize:
+  const fontSize = themeManager.setFontSize(25)
+3. Observera diagrammet i webbläsaren.
+
+Förväntad utdata: Labels och values får en större teckenstorlek.
+
+Test 2.2 
+Beskrivning: Ett meddelande ska visas om värdet för teckenstorlek inte är ett nummer.
+
+Steg: 
+1. Öppna Test-appens app.js.
+2. Ändra i värdet som skickas till setFontSize, till en sträng:
+  const fontSize = themeManager.setFontSize('15')
+3. Observera console i webbläsaren.
+
+Förväntad utdata: Ett meddelande "Font size needs to be a number."
+
+
+### BaseChart
+
+#### Testfall 1 - Axis steg
+
+Test 1.1 
+Beskrivning: En axis ritas, med det antal markeringslinjer som passar ett stort högsta värde.
+
+Steg:
+1. Öppna Test-appens app.js.
+2. Ändra rawData arrayen till att innehålla endast ett stort värde.
+  { label: 'A', value: 120 }
+3. Observera diagrammet i webbläsaren.
+
+Förväntad utdata: Markeringslinjer för varje tiotal, upp till 120.
+![alt text](./img/image11.png)
+
+Test 1.2
+Beskrivning: En axis ritas, med det antal markeringslinjer som passar ett litet högsta värde.
+
+Steg:
+1. Öppna Test-appens app.js.
+2. Ändra rawData arrayen till att innehålla endast ett litet värde.
+  { label: 'A', value: 8 }
+3. Observera diagrammet i webbläsaren.
+
+Förväntad utdata: Markeringslinjer för varje tal, upp till 8. 
+![alt text](./img/image12.png)
+
+#### Testfall 2 - Värdet överskrider senaste steget
+
+Test 2.1
+Beskrivning: Ett extra steg ritas, när värdet i data-arrayen överskrider det senaste steget på axis.
+
+Steg:
+1. Öppna Test-appens app.js.
+2. Ändra rawData arrayen till att innehålla endast ett litet värde.
+  { label: 'A', value: 122 }
+3. Observera diagrammet i webbläsaren.
+
+Förväntad utdata: Steg för värde 130 ritas ut.
+
+
 
 ### BarGraphManager
-
-Förkrav: Det finns en Test-app med en rawData-array av objekt i app.js.
-Förkrav: Test-appens index.html har ett SVG-element med samma id, bredd och höjd som i constructor för BarGraphManager.
-Förkrav: Test-appens index.html är öppnad med Live Server.
 
 #### Testfall 1 - Bredd
 
@@ -146,6 +224,7 @@ Steg:
 
 Förväntad utdata: 9 staplar skapas.
 ![alt text](./img/image2.png)
+
 
 #### Testfall 2 - Höjd
 Test 2.1
@@ -196,35 +275,20 @@ Förväntad utdata: Ett diagram skapas där "label" och "value" stämmer överen
 ![alt text](./img/image2.png)
 
 
-### PieChartManager
+### LineGraphManager
 
 Förkrav: Det finns en Test-app med en rawData-array av objekt i app.js.
 Förkrav: Test-appens index.html har ett SVG-element med samma id, bredd och höjd som i constructor för BarGraphManager.
 Förkrav: Test-appens index.html är öppnad med Live Server.
 
-#### Testfall 1 - Tårtbitars storlek
+#### Testfall 1 - Punkter
 
 Test 1.1
-Beskrivning: Ett diagram skapas med få tårtbitar, lika många som det finns objekt i rawData-arrayen från Test-app.
+Beskrivning: Ett diagram skapas med rätt antal punkter.
 
 Steg:
-1. Öppna Test-appens app.js och bestäm värden i rawData-arrayen.
-2. Sätt värden till: 
-  { label: 'A', value: 24 },
-  { label: 'B', value: 40 },
-  { label: 'C', value: 12 }
-3. Observera diagrammet i webbläsaren.
-
-Förväntad utdata: 3 tårtbitar skapas.
-![alt text](./img/image6.png)
-
-
-Test 1.2
-Beskrivning: Ett diagram skapas med många tårtbitar, lika många som det finns objekt i rawData-arrayen från Test-app.
-
-Steg:
-1. Öppna Test-appens app.js och bestäm värden i rawData-arrayen.
-2. Sätt värden till: 
+1. Öppna Test-appens app.js och bestäm värden.
+2. Sätt värden till:
   { label: 'A', value: 24 },
   { label: 'B', value: 40 },
   { label: 'C', value: 12 },
@@ -236,42 +300,29 @@ Steg:
   { label: 'I', value: 23 }
 3. Observera diagrammet i webbläsaren.
 
-Förväntad utdata: 9 tårtbitar skapas.
-![alt text](./img/image7.png)
+Förväntad utdata: Ett diagram skapas med 9 punkter, med linjer mellan.
+![alt text](./img/image10.png)
 
-1.3 
-Beskrivning: Ett diagram skapas med endast en hel tårta.
-
-Steg:
-1. Öppna Test-appens app.js och bestäm värden i rawData-arrayen.
-2. Sätt värden till: 
-  { label: 'A', value: 24 }
-3. Observera diagrammet i webbläsaren.
-4. Säkerställ procentsatserna genom att summera "values" och dela ett "value" genom totalen.
-
-Förväntad utdata: En hel tårta visas.
-![alt text](./img/image8.png)
 
 #### Testfall 2 - Värden
 
 Test 2.1 
-Beskrivning: Ett diagram skapas med rätt värden. Diagrammet ska visa en procentsats, som anger hur stor del det "value" utgör av totalen.
+Beskrivning: Ett diagram skapas med rätt "label" och "value".
 
 Steg:
-1. Öppna Test-appens app.js och bestäm värden i rawData-arrayen.
-2. Sätt värden till: 
+1. Öppna Test-appens app.js och bestäm värden.
+2. Sätt värden till:
   { label: 'A', value: 24 },
   { label: 'B', value: 40 },
-  { label: 'C', value: 12 }
+  { label: 'C', value: 12 },
+  { label: 'D', value: 26 },
+  { label: 'E', value: 30 },
+  { label: 'F', value: 22 },
+  { label: 'G', value: 28 },
+  { label: 'H', value: 27 },
+  { label: 'I', value: 23 }
 3. Observera diagrammet i webbläsaren.
-4. Säkerställ procentsatserna genom att summera "values" och dela ett "value" genom totalen.
 
-Förväntad utdata: A = 32%, B = 53%, C = 16%
-![alt text](./img/image9.png)
-
-
-
-
-
-
+Förväntad utdata: De rätta labels och values visas i diagrammet.
+![alt text](./img/image10.png)
 

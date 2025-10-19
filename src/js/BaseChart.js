@@ -46,7 +46,7 @@ export class BaseChart {
   createAxis (highestValue, theme, fontSize) {
     this.#drawMainAxisLine()
 
-    const step = this.#assignStepValue()
+    const step = this.#assignStepValue(highestValue)
 
     for (let i = 0; i <= highestValue; i += step) {
       const y = this.svgHeight - this.margin - (i / highestValue) * (this.svgHeight - this.margin - this.topMargin)

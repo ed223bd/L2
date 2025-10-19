@@ -18,7 +18,16 @@
 |-----------------------------------|----------------------|--------------|
 | 1.1 Vid ändring av tema, uppdateras diagrammet. | Manuellt | ✅ |
 | 1.2 Vid ej existerande tema, ska ett meddelande visas. | Manuellt | ✅ |
+| 2.1 Teckenstorlek uppdateras för labels och values. | Manuellt | ✅ |
+| 2.2 Ett meddelande ska visas om värdet för teckenstorlek inte är ett nummer. | Manuellt | ✅ |
 
+## Översikt - BaseChart
+
+| Vad har testats?                  | Hur har det testats? | Testresultat |
+|-----------------------------------|----------------------|--------------|
+| 1.1 En axis ritas, med det antal markeringslinjer som passar ett stort högsta värde. | Manuellt | ✅ |
+| 1.2 En axis ritas, med det antal markeringslinjer som passar ett litet högsta värde. | Manuellt | ✅ |
+| 2.1 Ett extra steg ritas, när värdet i data-arrayen överskrider det senaste steget på axis. | Manuellt | ❌ |
 
 
 ## Översikt - BarGraphManager
@@ -32,13 +41,9 @@
 | 3.1 Ett diagram skapas med rätt "label" och "value". | Manuellt | ✅ |
 
 
-## Översikt - PieChartManager
+## Översikt - LineGraphManager
 
-| Vad har testats?                  | Hur har det testats? | Testresultat |
-|-----------------------------------|----------------------|--------------|
-| 1.1 Ett diagram skapas med få tårtbitar, lika många som det finns objekt i rawData-arrayen från Test-app. | Manuellt | ✅ |
-| 1.2 Ett diagram skapas med många tårtbitar, lika många som det finns objekt i rawData-arrayen från Test-app. | Manuellt | ✅ |
-| 1.3 Ett diagram skapas med endast en hel tårta. | Manuellt | ✅ |
-| 2.1 Ett diagram skapas med rätt värden. Diagrammet ska visa en procentsats, som anger hur stor del det "value" utgör av totalen. | Manuellt | ✅ |
-
-
+✅
+| 1.1 Ett diagram skapas med rätt antal punkter | Manuellt | ✅ |
+| 2.1 Ett diagram skapas med rätt "label" och "value". | Manuellt | ✅ |
+|  |  |  |
