@@ -1,13 +1,13 @@
-import { ValidationManager, BarGraphManager, LineGraphManager, ThemeManager } from '../src/index.js'
+import { Validator, BarGraph, LineGraph, Theme } from '../src/index.js'
 
 // Instantiate the classes for validation and theme.
-const validationManager = new ValidationManager()
-const themeManager = new ThemeManager()
+const validator = new Validator()
+const theme = new Theme()
 
 // Set the id, width and height to the same values
 // as the SVG element in the app's index.html.
-const barGraphManager = new BarGraphManager('barGraph', 450, 300)
-const lineGraphManager = new LineGraphManager('lineGraph', 450, 300)
+const barGraph = new BarGraph('barGraph', 450, 300)
+const lineGraph = new LineGraph('lineGraph', 450, 300)
 
 // Set the data to create diagrams from.
 const rawData = [
@@ -23,14 +23,14 @@ const rawData = [
 ]
 
 // Validate the data before it is passed on to diagrams.
-const data = validationManager.validateData(rawData)
+const data = validator.validateData(rawData)
 
 // The available options are 'themeA' or 'themeB'.
-const theme = themeManager.setTheme('themeB')
+const selectedTheme = theme.setTheme('themeA')
 
 // Choose font size
-const fontSize = themeManager.setFontSize(15)
+const selectedFontSize = theme.setFontSize(15)
 
 // Create the diagrams
-barGraphManager.createBarGraph(data, theme, fontSize)
-lineGraphManager.createLineGraph(data, theme, fontSize)
+barGraph.createBarGraph(data, selectedTheme, selectedFontSize)
+lineGraph.createLineGraph(data, selectedTheme, selectedFontSize)

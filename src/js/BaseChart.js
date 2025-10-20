@@ -1,5 +1,5 @@
 /**
- * Sets private fields for BarGraphManager and LineGraphManager.
+ * Sets private fields for BarGraph and LineGraph.
  * Creates the y-axis with the height of the largest value.
  */
 export class BaseChart {

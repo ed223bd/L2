@@ -1,13 +1,13 @@
-import { ValidationManager } from './js/ValidationManager.js'
+import { Validator } from './js/Validator.js'
 import { BaseChart } from './js/BaseChart.js'
-import { BarGraphManager } from './js/BarGraphManager.js'
-import { LineGraphManager } from './js/LineGraphManager.js'
-import { ThemeManager } from './js/ThemeManager.js'
+import { BarGraph } from './js/BarGraph.js'
+import { LineGraph } from './js/LineGraph.js'
+import { Theme } from './js/Theme.js'
 
 export {
-  ValidationManager,
+  Validator,
   BaseChart,
-  BarGraphManager,
-  LineGraphManager,
-  ThemeManager
+  BarGraph,
+  LineGraph,
+  Theme
 }

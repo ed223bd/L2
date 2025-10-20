@@ -1,12 +1,13 @@
 # Tester
 
-### Förkrav
+### Generella förkrav
 
-Förkrav: Det finns en Test-app med en rawData-array av objekt i app.js.
-Förkrav: Test-appens index.html har ett SVG-element med samma id, bredd och höjd som i constructor för BarGraphManager.
-Förkrav: Test-appens index.html är öppnad med Live Server.
+- Det finns en Test-app med en array av objekt i app.js.
+- Test-appens index.html har ett SVG-element med samma id, bredd och höjd som i constructor för det diagram som ska skapas.
+- Test-appens index.html är öppnad med Live Server.
 
-### ValidationManager
+
+### Validator
 
 #### Testfall 1 - Array
 
@@ -22,7 +23,7 @@ Steg:
 Förväntad utdata: Ett meddelande "Data must be a non-empty array". 
 
 Test 1.2 
-Beskrivning: Ett meddelande visas om data-array är tom.
+Beskrivning: Ett meddelande visas om rawData-array är tom.
 
 Steg:
 1. Öppna Test-appens app.js och bestäm värden.
@@ -47,7 +48,7 @@ Steg:
 Förväntad utdata: Ett meddelande "Data needs be sent as objects in an array and the object cannot be null".
 
 Test 2.2
-Beskrivning: Ett meddelande visas om data-arrayen inte har en "label" som är en string.
+Beskrivning: Ett meddelande visas om data-arrayen inte har en "label" som är en sträng.
 
 Steg:
 1. Öppna Test-appens app.js och bestäm värden.
@@ -79,17 +80,17 @@ Steg:
 
 Förväntad utdata: Ett meddelande "Value needs to be a non-negative number".
 
-### ThemeManager
+### Theme
 
 #### Förkrav
 ThemeA är valt i app.js 
 ```javascript
-const theme = themeManager.setTheme('themeA')
+const selectedTheme = theme.setTheme('themeA')
 ```
 
 Teckenstorlek är bestämt i app.js
 ```javascript
-const fontSize = themeManager.setFontSize(15)
+const selectedFontSize = theme.setFontSize(15)
 ```
 
 
@@ -101,7 +102,7 @@ Beskrivning: Vid ändring av tema, uppdateras diagrammet.
 Steg:
 1. Öppna Test-appens app.js.
 2. Ändra i den string som skickas till setTheme metoden:
-  const theme = themeManager.setTheme('themeB')
+  const selectedTheme = theme.setTheme('themeB')
 3. Observera diagrammet i webbläsaren.
 
 Förväntad utdata: Diagrammet uppdateras till det nya temat.
@@ -113,7 +114,7 @@ Beskrivning: Vid ej existerande tema, ska ett meddelande visas.
 Steg:
 1. Öppna Test-appens app.js.
 2. Ändra i den string som skickas till setTheme metoden:
-  const theme = themeManager.setTheme('themeC')
+  const selectedTheme = theme.setTheme('themeC')
 3. Observera console i webbläsaren.
 
 Förväntad utdata: Ett meddelande "Choose one of the themes available"
@@ -126,7 +127,7 @@ Beskrivning: Teckenstorlek uppdateras för labels och values.
 Steg:
 1. Öppna Test-appens app.js.
 2. Ändra i numret som skickas till setFontSize:
-  const fontSize = themeManager.setFontSize(25)
+  const selectedFontSize = theme.setFontSize(25)
 3. Observera diagrammet i webbläsaren.
 
 Förväntad utdata: Labels och values får en större teckenstorlek.
@@ -137,7 +138,7 @@ Beskrivning: Ett meddelande ska visas om värdet för teckenstorlek inte är ett
 Steg: 
 1. Öppna Test-appens app.js.
 2. Ändra i värdet som skickas till setFontSize, till en sträng:
-  const fontSize = themeManager.setFontSize('15')
+  const selectedFontSize = theme.setFontSize('15')
 3. Observera console i webbläsaren.
 
 Förväntad utdata: Ett meddelande "Font size needs to be a number."
@@ -196,7 +197,7 @@ Förväntad utdata: Steg för värde 45 ritas ut.
 ![alt text](./img/image13.png)
 
 
-### BarGraphManager
+### BarGraph
 
 #### Testfall 1 - Bredd
 
@@ -285,11 +286,7 @@ Förväntad utdata: Ett diagram skapas där "label" och "value" stämmer överen
 ![alt text](./img/image2.png)
 
 
-### LineGraphManager
-
-Förkrav: Det finns en Test-app med en rawData-array av objekt i app.js.
-Förkrav: Test-appens index.html har ett SVG-element med samma id, bredd och höjd som i constructor för BarGraphManager.
-Förkrav: Test-appens index.html är öppnad med Live Server.
+### LineGraph
 
 #### Testfall 1 - Punkter
 
@@ -312,6 +309,26 @@ Steg:
 
 Förväntad utdata: Ett diagram skapas med 9 punkter, med linjer mellan.
 ![alt text](./img/image10.png)
+
+Test 1.2 
+Beskrivning: Ett diagram skapas med flera punkter, vars höjd stämmer överens med steg på axis.
+
+Steg:
+1. Öppna Test-appens app.js och bestäm värden.
+2. Sätt värden till:
+  { label: 'A', value: 24 },
+  { label: 'B', value: 40 },
+  { label: 'C', value: 12 },
+  { label: 'D', value: 26 },
+  { label: 'E', value: 30 },
+  { label: 'F', value: 22 },
+  { label: 'G', value: 28 },
+  { label: 'H', value: 27 },
+  { label: 'I', value: 23 }
+3. Observera diagrammet i webbläsaren.
+
+Förväntad utdata: Diagrammet skapas och höjden på punkterna stämmer överens med stegen på axis.
+![alt text](./img/image14.png)
 
 
 #### Testfall 2 - Värden

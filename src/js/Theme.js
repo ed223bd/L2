@@ -1,7 +1,7 @@
 /**
  * Sets the theme to be used in the diagrams.
  */
-export class ThemeManager {
+export class Theme {
   /**
    * Takes a string and returns a predefined theme if it is a match.
    *

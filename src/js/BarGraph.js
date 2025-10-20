@@ -4,7 +4,7 @@ import { BaseChart } from './BaseChart.js'
  * Class that creates a Bar Graph diagram by looping through each data
  * object in an array and drawing to the SVG element.
  */
-export class BarGraphManager extends BaseChart {
+export class BarGraph extends BaseChart {
   /**
    * Sets the size of the bar graph SVG element for calculations.
    *

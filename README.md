@@ -28,9 +28,8 @@ This module is suitable for smaller diagrams.
 In your app, import the *index.js* file from the folder that was created. The index.js file has all exports from the module. If the folder name is *src*, it may be imported like this:
 
 ```javascript
-import { ValidationManager, BarGraphManager, LineGraphManager, ThemeManager } from '../src/index.js'
+import { Validator, BarGraph, LineGraph, Theme } from '../src/index.js'
 ```
-
 
 In your app's index.html, create an SVG element in the body. It is the SVG element that the module will script the diagrams to.
 
@@ -45,13 +44,13 @@ The *id* set here, will later be used in the constuctor when creating a diagram.
 
 ```javascript
 // Instantiate the classes for validation and theme.
-const validationManager = new ValidationManager()
-const themeManager = new ThemeManager()
+const validator = new Validator()
+const theme = new Theme()
 
 // Set the id, width and height to the same values
 // as the SVG element in the app's index.html.
-const barGraphManager = new BarGraphManager('barGraph', 450, 300)
-const lineGraphManager = new LineGraphManager('lineGraph', 450, 300)
+const barGraph = new BarGraph('barGraph', 450, 300)
+const lineGraph = new LineGraph('lineGraph', 450, 300)
 
 // Set the data to create diagrams from.
 const rawData = [
@@ -66,25 +65,25 @@ const rawData = [
   { label: 'I', value: 23 }
 ]
 
-// Validate the data before it is passed in to diagrams.
-const data = validationManager.validateData(rawData)
+// Validate the data before it is passed on to diagrams.
+const data = validator.validateData(rawData)
 
 // The available options are 'themeA' or 'themeB'.
-const theme = themeManager.setTheme('themeB')
+const selectedTheme = theme.setTheme('themeB')
 
 // Choose font size
-const fontSize = themeManager.setFontSize(15)
+const selectedFontSize = theme.setFontSize(15)
 
 // Create the diagrams
-barGraphManager.createBarGraph(data, theme, fontSize)
-lineGraphManager.createLineGraph(data, theme, fontSize)
+barGraph.createBarGraph(data, selectedTheme, selectedFontSize)
+lineGraph.createLineGraph(data, selectedTheme, selectedFontSize)
 ```
 
-When instantiating the BarGraphManager or LineGraphManager, the id, width and height need to be set to the same values as set in the SVG element in index.html. It they are not the same, the modules calculations will be incorrect.
+When instantiating the BarGraph or LineGraph, the id, width and height need to be set to the same values as set in the SVG element in index.html. It they are not the same, the modules calculations will be incorrect.
 
-Pass the data into ValidationManager for validation of the data array. The ValidationManager will validade the objects and their labels and values in the data array.
+Pass the data into Validator for validation of the data array. The ValidationManager will validade the objects and their labels and values in the data array.
 
-Set a theme using ThemeManager. The themes available are `'ThemeA'` and `'ThemeB'`. Font size 15 is recommended, but can be altered by passing a number into the setFontSize method.
+Set a theme using Theme. The themes available are `'ThemeA'` and `'ThemeB'`. Font size 15 is recommended, but can be altered by passing a number into the setFontSize method.
 
 At last, create the diagram by passing data, theme and font size parameters into the diagram.
 

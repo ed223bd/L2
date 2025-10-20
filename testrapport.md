@@ -1,6 +1,6 @@
 # Testöversikt
 
-## Översikt - ValidationManager
+## Översikt - Validator
 
 | Vad har testats?                  | Hur har det testats? | Testresultat |
 |-----------------------------------|----------------------|--------------|
@@ -12,7 +12,7 @@
 | 2.4 Beskrivning: Ett meddelande visas om objekt i data-arrayen inte har ett "value" med ett positivt nummer. | Manuellt | ✅ |
 
 
-## Översikt - ThemeManager
+## Översikt - Theme
 
 | Vad har testats?                  | Hur har det testats? | Testresultat |
 |-----------------------------------|----------------------|--------------|
@@ -31,7 +31,7 @@
 | 2.1 Ett extra steg ritas, när värdet i data-arrayen överskrider det senaste steget på axis. | Manuellt | ✅ |
 
 
-## Översikt - BarGraphManager
+## Översikt - BarGraph
 
 | Vad har testats?                  | Hur har det testats? | Testresultat |
 |-----------------------------------|----------------------|--------------|
@@ -42,8 +42,8 @@
 | 3.1 Ett diagram skapas med rätt "label" och "value". | Manuellt | ✅ |
 
 
-## Översikt - LineGraphManager
+## Översikt - LineGraph
 
 | 1.1 Ett diagram skapas med rätt antal punkter | Manuellt | ✅ |
-| 1.2 En axis ritas, med det antal markeringslinjer som passar ett litet högsta värde. | Manuellt | ✅ |
+| 1.2 Ett diagram skapas med flera punkter, vars höjd stämmer överens med steg på axis. | Manuellt | ✅ |
 | 2.1 Ett diagram skapas med rätt "label" och "value". | Manuellt | ✅ |

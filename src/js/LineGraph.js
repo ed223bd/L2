@@ -1,9 +1,10 @@
 import { BaseChart } from './BaseChart.js'
 
 /**
- *
+ * Class that creates a Line Graph diagram by looping through each data
+ * object in an array and drawing to the SVG element.
  */
-export class LineGraphManager extends BaseChart {
+export class LineGraph extends BaseChart {
   // TODO: remove? Unnecessary
   constructor (svgId, width, height) {
     super(svgId, width, height)

@@ -1,4 +1,4 @@
-export class ValidationManager {
+export class Validator {
   validateData (rawData) {
     if (!Array.isArray(rawData) || rawData.length === 0) {
       throw new Error('Data must be a non-empty array')
