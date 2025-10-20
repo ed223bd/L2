@@ -13,7 +13,7 @@ const lineGraphManager = new LineGraphManager('lineGraph', 450, 300)
 // Set the data to create diagrams from.
 const rawData = [
   { label: 'A', value: 24 },
-  { label: 'B', value: 40 },
+  { label: 'B', value: 42 },
   { label: 'C', value: 12 },
   { label: 'D', value: 26 },
   { label: 'E', value: 30 },

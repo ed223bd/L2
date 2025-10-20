@@ -21,13 +21,14 @@
 | 2.1 Teckenstorlek uppdateras för labels och values. | Manuellt | ✅ |
 | 2.2 Ett meddelande ska visas om värdet för teckenstorlek inte är ett nummer. | Manuellt | ✅ |
 
+
 ## Översikt - BaseChart
 
 | Vad har testats?                  | Hur har det testats? | Testresultat |
 |-----------------------------------|----------------------|--------------|
 | 1.1 En axis ritas, med det antal markeringslinjer som passar ett stort högsta värde. | Manuellt | ✅ |
 | 1.2 En axis ritas, med det antal markeringslinjer som passar ett litet högsta värde. | Manuellt | ✅ |
-| 2.1 Ett extra steg ritas, när värdet i data-arrayen överskrider det senaste steget på axis. | Manuellt | ❌ |
+| 2.1 Ett extra steg ritas, när värdet i data-arrayen överskrider det senaste steget på axis. | Manuellt | ✅ |
 
 
 ## Översikt - BarGraphManager
@@ -43,7 +44,6 @@
 
 ## Översikt - LineGraphManager
 
-✅
 | 1.1 Ett diagram skapas med rätt antal punkter | Manuellt | ✅ |
+| 1.2 En axis ritas, med det antal markeringslinjer som passar ett litet högsta värde. | Manuellt | ✅ |
 | 2.1 Ett diagram skapas med rätt "label" och "value". | Manuellt | ✅ |
-|  |  |  |

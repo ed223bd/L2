@@ -44,18 +44,28 @@ export class BaseChart {
   }
 
   createAxis (highestValue, theme, fontSize) {
-    this.#drawMainAxisLine()
+    const mainAxisLine = this.#svgHeight - this.#margin
+    this.#drawMainAxisLine(mainAxisLine)
 
     const step = this.#assignStepValue(highestValue)
 
+    let lastStep
     for (let i = 0; i <= highestValue; i += step) {
-      const y = this.svgHeight - this.margin - (i / highestValue) * (this.svgHeight - this.margin - this.topMargin)
+      const y = this.#svgHeight - this.#margin - (i / highestValue) * (this.#svgHeight - this.#margin - this.#topMargin)
 
-      this.#drawMinorAxisLines(y, i)
+      this.#drawMinorAxisLines(y)
       this.#drawMinorAxisLinesLabels(y, i, theme, fontSize)
 
-      // TODO: Add an extra step om highestValue
-      // is more than the last step
+      lastStep = i
+    }
+
+    // Add an extra step om highestValue
+    // is more than the last step
+    if (highestValue % step !== 0) {
+      const i = lastStep + step
+      const y = this.#svgHeight - this.#margin - (i / highestValue) * (this.#svgHeight - this.#margin - this.#topMargin)
+      this.#drawMinorAxisLines(y)
+      this.#drawMinorAxisLinesLabels(y, i, theme, fontSize)
     }
   }
 
@@ -63,7 +73,7 @@ export class BaseChart {
     let step
     if (highestValue <= 10) {
       step = 1
-    } else if (highestValue > 10 && highestValue <= 100) {
+    } else if (highestValue > 10 && highestValue <= 50) {
       step = 5
     } else {
       step = 10
@@ -71,20 +81,20 @@ export class BaseChart {
     return step
   }
 
-  #drawMainAxisLine () {
+  #drawMainAxisLine (mainAxisLine) {
     const axisLine = document.createElementNS('http://www.w3.org/2000/svg', 'line')
 
     axisLine.setAttribute('x1', 10)
     axisLine.setAttribute('x2', 10)
     axisLine.setAttribute('y1', 10)
-    axisLine.setAttribute('y2', this.svgHeight - this.margin)
+    axisLine.setAttribute('y2', mainAxisLine)
     axisLine.setAttribute('stroke', 'black')
     axisLine.setAttribute('stroke-width', 2)
 
     this.svg.appendChild(axisLine)
   }
 
-  #drawMinorAxisLines (y, i) {
+  #drawMinorAxisLines (y) {
     const minorLines = document.createElementNS('http://www.w3.org/2000/svg', 'line')
 
     minorLines.setAttribute('x1', 5)

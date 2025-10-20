@@ -152,7 +152,7 @@ Beskrivning: En axis ritas, med det antal markeringslinjer som passar ett stort 
 
 Steg:
 1. Öppna Test-appens app.js.
-2. Ändra rawData arrayen till att innehålla endast ett stort värde.
+2. Ändra rawData arrayen till att innehålla endast ett stort värde:
   { label: 'A', value: 120 }
 3. Observera diagrammet i webbläsaren.
 
@@ -164,7 +164,7 @@ Beskrivning: En axis ritas, med det antal markeringslinjer som passar ett litet 
 
 Steg:
 1. Öppna Test-appens app.js.
-2. Ändra rawData arrayen till att innehålla endast ett litet värde.
+2. Ändra rawData arrayen till att innehålla endast ett litet värde:
   { label: 'A', value: 8 }
 3. Observera diagrammet i webbläsaren.
 
@@ -178,12 +178,22 @@ Beskrivning: Ett extra steg ritas, när värdet i data-arrayen överskrider det 
 
 Steg:
 1. Öppna Test-appens app.js.
-2. Ändra rawData arrayen till att innehålla endast ett litet värde.
-  { label: 'A', value: 122 }
+2. Ändra högsta värdet i rawData arrayen till 42:
+  const rawData = [
+  { label: 'A', value: 24 },
+  { label: 'B', value: 42 },
+  { label: 'C', value: 12 },
+  { label: 'D', value: 26 },
+  { label: 'E', value: 30 },
+  { label: 'F', value: 22 },
+  { label: 'G', value: 28 },
+  { label: 'H', value: 27 },
+  { label: 'I', value: 23 }
+]
 3. Observera diagrammet i webbläsaren.
 
-Förväntad utdata: Steg för värde 130 ritas ut.
-
+Förväntad utdata: Steg för värde 45 ritas ut.
+![alt text](./img/image13.png)
 
 
 ### BarGraphManager
