@@ -5,14 +5,13 @@ This file is meant for developers who may want to contribute to the module.
 
 ## Future Features
 
-- Customizeable font size
-- A line graph diagram
-- Another theme
+- A pie chart diagram
+- An additional theme
 
 
 ## Known Issues
 
-- In createAxis in BarGraphManager, an extra step should be added if value is over the last step.
+- If a large font size is chosen, the left side margin for axis should be larger. A large font would make the label for the step overlap with the bars or lines in the diagram.
 
 
 ## Getting Started

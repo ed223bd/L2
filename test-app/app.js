@@ -1,7 +1,6 @@
 import { ValidationManager, BarGraphManager, LineGraphManager, ThemeManager } from '../src/index.js'
 
-// Instantiating the classes for validation
-// and setting the theme.
+// Instantiate the classes for validation and theme.
 const validationManager = new ValidationManager()
 const themeManager = new ThemeManager()
 
@@ -27,7 +26,7 @@ const rawData = [
 const data = validationManager.validateData(rawData)
 
 // The available options are 'themeA' or 'themeB'.
-const theme = themeManager.setTheme('themeA')
+const theme = themeManager.setTheme('themeB')
 
 // Choose font size
 const fontSize = themeManager.setFontSize(15)

@@ -7,12 +7,12 @@ This module is suitable for smaller diagrams.
 
 ### Example Output
 `'themeA'` to the left and `'themeB'` to the right.
-![Example of graphs and the themes](./documentation/img/photo-collage2.png)
+![Example of graphs and the themes](./documentation/img/collageOfDiagrams.png)
 
 
 ## Features
 
-- 📈 Creates an SVG-element that shows the data in diagrams.
+- 📈 Shows data in diagrams.
 - 🎨 Customizeable font and colors by using a theme.
 - 📏 Customizeable size of the diagram.
 
@@ -25,14 +25,16 @@ This module is suitable for smaller diagrams.
 
 ## How to use
 
-In your app, import the *index.js* file from *src* folder. The index.js file has all exports from the module.
+In your app, import the *index.js* file from the folder that was created. The index.js file has all exports from the module. If the folder name is *src*, it may be imported like this:
 
 ```javascript
-import { ValidationManager, BarGraphManager, PieChartManager, ThemeManager } from '../src/index.js'
+import { ValidationManager, BarGraphManager, LineGraphManager, ThemeManager } from '../src/index.js'
 ```
 
 
 In your app's index.html, create an SVG element in the body. It is the SVG element that the module will script the diagrams to.
+
+The *id* set here, will later be used in the constuctor when creating a diagram.
 
 ```javascript
 <svg id="barGraph" width="450" height="300" xmlns="http://www.w3.org/2000/svg" style="border: 2px, solid;"></svg>
@@ -40,15 +42,51 @@ In your app's index.html, create an SVG element in the body. It is the SVG eleme
 
 
 ### Example of how to use the module:
-![Code example of how to use the module](./documentation/img/exampleOfUse.png)
 
-When instantiating the BarGraphManager or PieChartManager, the id, width and height need to be set to the same values as set in the SVG element in index.html.
+```javascript
+// Instantiate the classes for validation and theme.
+const validationManager = new ValidationManager()
+const themeManager = new ThemeManager()
 
-Pass the data into ValidationManager for validation of the array, objects and values.
+// Set the id, width and height to the same values
+// as the SVG element in the app's index.html.
+const barGraphManager = new BarGraphManager('barGraph', 450, 300)
+const lineGraphManager = new LineGraphManager('lineGraph', 450, 300)
 
-Set a theme using ThemeManager. The themes available are `'ThemeA'` and `'ThemeB'`. 
+// Set the data to create diagrams from.
+const rawData = [
+  { label: 'A', value: 24 },
+  { label: 'B', value: 42 },
+  { label: 'C', value: 12 },
+  { label: 'D', value: 26 },
+  { label: 'E', value: 30 },
+  { label: 'F', value: 22 },
+  { label: 'G', value: 28 },
+  { label: 'H', value: 27 },
+  { label: 'I', value: 23 }
+]
 
-At last, create the diagram by passing data and theme parameters into the diagram.
+// Validate the data before it is passed in to diagrams.
+const data = validationManager.validateData(rawData)
+
+// The available options are 'themeA' or 'themeB'.
+const theme = themeManager.setTheme('themeB')
+
+// Choose font size
+const fontSize = themeManager.setFontSize(15)
+
+// Create the diagrams
+barGraphManager.createBarGraph(data, theme, fontSize)
+lineGraphManager.createLineGraph(data, theme, fontSize)
+```
+
+When instantiating the BarGraphManager or LineGraphManager, the id, width and height need to be set to the same values as set in the SVG element in index.html. It they are not the same, the modules calculations will be incorrect.
+
+Pass the data into ValidationManager for validation of the data array. The ValidationManager will validade the objects and their labels and values in the data array.
+
+Set a theme using ThemeManager. The themes available are `'ThemeA'` and `'ThemeB'`. Font size 15 is recommended, but can be altered by passing a number into the setFontSize method.
+
+At last, create the diagram by passing data, theme and font size parameters into the diagram.
 
 
 ## Dependencies
@@ -60,6 +98,7 @@ There are no dependencies in this module, except built-in node functions.
 
 - Vanilla JavaScript
 - Node.js
+
 
 ## Disclaimer
 
