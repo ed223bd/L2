@@ -44,6 +44,8 @@
 
 ## Översikt - LineGraph
 
+| Vad har testats?                  | Hur har det testats? | Testresultat |
+|-----------------------------------|----------------------|--------------|
 | 1.1 Ett diagram skapas med rätt antal punkter | Manuellt | ✅ |
 | 1.2 Ett diagram skapas med flera punkter, vars höjd stämmer överens med steg på axis. | Manuellt | ✅ |
 | 2.1 Ett diagram skapas med rätt "label" och "value". | Manuellt | ✅ |

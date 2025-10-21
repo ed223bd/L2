@@ -12,6 +12,7 @@ This file is meant for developers who may want to contribute to the module.
 ## Known Issues
 
 - If a large font size is chosen, the left side margin for axis should be larger. A large font would make the label for the step overlap with the bars or lines in the diagram.
+- Horizontal lines are missing for line graph diagram. Lines would make for an easier reading of the diagram. 
 
 
 ## Getting Started

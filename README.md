@@ -81,7 +81,7 @@ lineGraph.createLineGraph(data, selectedTheme, selectedFontSize)
 
 When instantiating the BarGraph or LineGraph, the id, width and height need to be set to the same values as set in the SVG element in index.html. It they are not the same, the modules calculations will be incorrect.
 
-Pass the data into Validator for validation of the data array. The ValidationManager will validade the objects and their labels and values in the data array.
+Pass the data into Validator for validation of the data array. The Validator will validade the objects and their labels and values in the data array.
 
 Set a theme using Theme. The themes available are `'ThemeA'` and `'ThemeB'`. Font size 15 is recommended, but can be altered by passing a number into the setFontSize method.
 
