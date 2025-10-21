@@ -5,36 +5,30 @@ import { BaseChart } from './BaseChart.js'
  * object in an array and drawing to the SVG element.
  */
 export class LineGraph extends BaseChart {
-  // TODO: remove? Unnecessary
-  constructor (svgId, width, height) {
-    super(svgId, width, height)
-  }
-
   /**
+   * Main method that makes calculations for line graph and calls on the drawing.
    *
+   * @param {Array} data - The data array with objects.
+   * @param {object} theme - The chosen theme with attributes.
+   * @param {number} fontSize - The chosen font size.
    */
   createLineGraph (data, theme, fontSize) {
-    // console.log(data)
-
     const spaceBetweenPoints = (this.svgWidth - this.margin) / data.length
     const highestValue = Math.max(...data.map(d => d.value))
 
     this.createAxis(highestValue, theme, fontSize)
-
-    // let startingPointX = this.leftMargin
 
     let startingPointX = 0
 
     for (let i = 0; i < data.length; i++) {
       const value = data[i].value
       const label = data[i].label
-      // console.log(value, label)
 
       const heightOfPoint = Math.floor(value / highestValue * (this.svgHeight - this.topMargin - this.margin))
 
       let heightOfNextPoint
       if (i === data.length - 1) {
-        // To make the last line into just a point
+        // To make the last line into just a point (no line after)
         heightOfNextPoint = heightOfPoint
       } else {
         heightOfNextPoint = Math.floor(data[i + 1].value / highestValue * (this.svgHeight - this.topMargin - this.margin))
@@ -58,10 +52,6 @@ export class LineGraph extends BaseChart {
       const startingPointY = this.svgHeight - heightOfPoint - this.margin
       const nextPointY = this.svgHeight - heightOfNextPoint - this.margin
 
-      // console.log(heightOfPoint)
-
-      // console.log(startingPointX, startingPointY, spaceBetweenPoints, nextPointY)
-
       const labelHeight = this.svgHeight - this.margin / 2
 
       this.#drawLine(startingPointX, startingPointY, nextPointX, nextPointY, theme)
@@ -71,12 +61,6 @@ export class LineGraph extends BaseChart {
   }
 
   #drawLine(startingPointX, startingPointY, nextPointX, nextPointY, theme) {
-
-    // path eller flera line?
-    // Path: M(moveto), L(lineto), Z(close)
-
-    // Samma "hopp" på x-axeln (spaceBetweenPoints)
-    // Två y-värden per streck (start och slut)
     const path = document.createElementNS('http://www.w3.org/2000/svg', 'path')
 
     path.setAttribute('d', `
@@ -87,6 +71,7 @@ export class LineGraph extends BaseChart {
     path.setAttribute('stroke', theme.color)
     path.setAttribute('stroke-opacity', theme.colorOpacity)
     path.setAttribute('stroke-width', '4')
+    path.setAttribute('stroke-linecap', 'round')
 
     this.svg.appendChild(path)
   }

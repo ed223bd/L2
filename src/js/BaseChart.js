@@ -1,6 +1,6 @@
 /**
  * Sets private fields for BarGraph and LineGraph.
- * Creates the y-axis with the height of the largest value.
+ * Creates the steps on y-axis depending on the height of the largest value in a data array.
  */
 export class BaseChart {
   #svg
@@ -10,6 +10,13 @@ export class BaseChart {
   #leftMargin
   #topMargin
 
+  /**
+   * Sets the size of the SVG element for calculations.
+   *
+   * @param {string} svgId - The id for the SVG element.
+   * @param {number} width - The width to make calculations from.
+   * @param {number} height - The height to make calculations from.
+   */
   constructor (svgId, width, height) {
     this.#svg = document.querySelector(`#${svgId}`)
     this.#svgWidth = width
@@ -43,6 +50,13 @@ export class BaseChart {
     return this.#topMargin
   }
 
+  /**
+   * Main method that makes calculations for axis and calls on the drawing.
+   *
+   * @param {number} highestValue - The highest value in a data array.
+   * @param {object} theme - The chosen theme with attributes.
+   * @param {number} fontSize - The chosen font size.
+   */
   createAxis (highestValue, theme, fontSize) {
     const mainAxisLine = this.#svgHeight - this.#margin
     this.#drawMainAxisLine(mainAxisLine)
@@ -59,8 +73,7 @@ export class BaseChart {
       lastStep = i
     }
 
-    // Add an extra step om highestValue
-    // is more than the last step
+    // Add an extra step if highestValue is more than the last step
     if (highestValue % step !== 0) {
       const i = lastStep + step
       const y = this.#svgHeight - this.#margin - (i / highestValue) * (this.#svgHeight - this.#margin - this.#topMargin)

@@ -6,22 +6,11 @@ import { BaseChart } from './BaseChart.js'
  */
 export class BarGraph extends BaseChart {
   /**
-   * Sets the size of the bar graph SVG element for calculations.
-   *
-   * @param {string} svgId - The id for the SVG element for Bar Graph.
-   * @param {number} width - The width to make calculations from.
-   * @param {number} height - The height to make calculations from.
-   */
-  // TODO: remove? lint says unneccessary
-  constructor (svgId, width, height) {
-    super(svgId, width, height)
-  }
-
-  /**
-   * Main method that makes calculations and calls on the drawing.
+   * Main method that makes calculations for bar graph and calls on the drawing.
    *
    * @param {Array} data - The data array with objects.
    * @param {object} theme - The chosen theme with attributes.
+   * @param {number} fontSize - The chosen font size.
    */
   createBarGraph (data, theme, fontSize) {
     // 1.2 is padding between bars
@@ -45,7 +34,7 @@ export class BarGraph extends BaseChart {
       this.#drawLabel(xLabelPosition, yLabelPosition, label, theme, fontSize)
 
       // Value y-position is set to above the bars. 1.2 is to give
-      // a small space between bars and values
+      // a small and dynamic space between bars and values
       const yValuePosition = this.svgHeight - barHeight - this.margin * 1.2
       this.#drawValue(xLabelPosition, yValuePosition, value, theme, fontSize)
     })

@@ -1,3 +1,6 @@
+/**
+ * The Validator class is used for validating an array of objects.
+ */
 export class Validator {
   validateData (rawData) {
     if (!Array.isArray(rawData) || rawData.length === 0) {
