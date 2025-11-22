@@ -1,82 +1,81 @@
 import { BaseChart } from './BaseChart.js'
 
-/**
- * Class that creates a Line Graph diagram by looping through each data
- * object in an array and drawing to the SVG element.
- */
 export class LineGraph extends BaseChart {
-  // TODO: remove? Unnecessary
   constructor (svgId, width, height) {
     super(svgId, width, height)
   }
 
-  /**
-   *
-   */
   createLineGraph (data, theme, fontSize) {
-    // console.log(data)
+    if (!data || data.length === 0) {
+      throw new Error('Data needs to be a non-empty array')
+    }
 
+    const labelHeight = this.svgHeight - this.margin / 2
+    const availableHeight = this.svgHeight - this.topMargin - this.margin
     const spaceBetweenPoints = (this.svgWidth - this.margin) / data.length
     const highestValue = Math.max(...data.map(d => d.value))
 
     this.createAxis(highestValue, theme, fontSize)
-
-    // let startingPointX = this.leftMargin
 
     let startingPointX = 0
 
     for (let i = 0; i < data.length; i++) {
       const value = data[i].value
       const label = data[i].label
-      // console.log(value, label)
 
-      const heightOfPoint = Math.floor(value / highestValue * (this.svgHeight - this.topMargin - this.margin))
+      const heightOfPoint = Math.floor(value / this.highestValue * (this.availableHeight))
 
-      let heightOfNextPoint
-      if (i === data.length - 1) {
-        // To make the last line into just a point
-        heightOfNextPoint = heightOfPoint
-      } else {
-        heightOfNextPoint = Math.floor(data[i + 1].value / highestValue * (this.svgHeight - this.topMargin - this.margin))
-      }
-
-      if (i === 0) {
-        startingPointX += this.leftMargin
-      } else if (i === data.length) {
-        startingPointX += 0
-      } else {
-        startingPointX += spaceBetweenPoints
-      }
-
-      let nextPointX
-      if (i === data.length - 1) {
-        nextPointX = startingPointX
-      } else {
-        nextPointX = startingPointX + spaceBetweenPoints
-      }
+      startingPointX = this.#calculateStartingPointX(i, data, startingPointX)
+      const nextPointX = this.#calculateNextPointX(i, data, startingPointX)
+      const heightOfNextPoint = this.#calculateHeightOfNextPoint(i, data, heightOfPoint)
 
       const startingPointY = this.svgHeight - heightOfPoint - this.margin
       const nextPointY = this.svgHeight - heightOfNextPoint - this.margin
 
-      // console.log(heightOfPoint)
+      const path = this.#drawLine(startingPointX, startingPointY, nextPointX, nextPointY, theme)
+      const valueText = this.#drawValue(startingPointX, startingPointY, value, theme, fontSize)
+      const labelText = this.#drawLabel(startingPointX, label, theme, fontSize)
 
-      // console.log(startingPointX, startingPointY, spaceBetweenPoints, nextPointY)
-
-      const labelHeight = this.svgHeight - this.margin / 2
-
-      this.#drawLine(startingPointX, startingPointY, nextPointX, nextPointY, theme)
-      this.#drawValue(startingPointX, startingPointY, value, theme, fontSize)
-      this.#drawLabel(startingPointX, labelHeight, label, theme, fontSize)
+      this.#appendElements(path, valueText, labelText)
     }
   }
 
-  #drawLine(startingPointX, startingPointY, nextPointX, nextPointY, theme) {
+  #calculateStartingPointX(i, data, startingPointX) {
+    if (i === 0) {
+      startingPointX += this.leftMargin
+    } else if (i === data.length) {
+      startingPointX += 0
+    } else {
+      startingPointX += this.spaceBetweenPoints
+    }
 
-    // path eller flera line?
-    // Path: M(moveto), L(lineto), Z(close)
+    return startingPointX
+  }
 
-    // Samma "hopp" på x-axeln (spaceBetweenPoints)
-    // Två y-värden per streck (start och slut)
+  #calculateNextPointX(i, data, startingPointX) {
+    let nextPointX
+    if (i === data.length - 1) {
+      nextPointX = startingPointX
+    } else {
+      nextPointX = startingPointX + this.spaceBetweenPoints
+    }
+
+    return nextPointX
+  }
+
+  #calculateHeightOfNextPoint (i, data, heightOfPoint) {
+    let heightOfNextPoint
+    if (i === data.length - 1) {
+      // Makes the last line into just a point
+      heightOfNextPoint = heightOfPoint
+    } else {
+      heightOfNextPoint = Math.floor(data[i + 1].value / this.highestValue * (this.availableHeight))
+    }
+
+    return heightOfNextPoint
+  }
+
+  #drawLine (startingPointX, startingPointY, nextPointX, nextPointY, theme) {
     const path = document.createElementNS('http://www.w3.org/2000/svg', 'path')
 
     path.setAttribute('d', `
@@ -88,7 +87,7 @@ export class LineGraph extends BaseChart {
     path.setAttribute('stroke-opacity', theme.colorOpacity)
     path.setAttribute('stroke-width', '4')
 
-    this.svg.appendChild(path)
+    return path
   }
 
   #drawValue (startingPointX, startingPointY, value, theme, fontSize) {
@@ -101,19 +100,25 @@ export class LineGraph extends BaseChart {
     valueText.setAttribute('font-size', fontSize)
     valueText.textContent = value
 
-    this.svg.appendChild(valueText)
+    return valueText
   }
 
-  #drawLabel (startingPointX, labelHeight, label, theme, fontSize) {
+  #drawLabel (startingPointX, label, theme, fontSize) {
     const labelText = document.createElementNS('http://www.w3.org/2000/svg', 'text')
 
     labelText.setAttribute('x', startingPointX)
-    labelText.setAttribute('y', labelHeight)
+    labelText.setAttribute('y', this.labelHeight)
     labelText.setAttribute('text-anchor', 'middle')
     labelText.setAttribute('font-family', theme.font)
     labelText.setAttribute('font-size', fontSize)
     labelText.textContent = label
 
+    return labelText
+  }
+
+  #appendElements (path, valueText, labelText) {
     this.svg.appendChild(labelText)
+    this.svg.appendChild(valueText)
+    this.svg.appendChild(path)
   }
 }

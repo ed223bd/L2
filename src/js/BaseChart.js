@@ -1,7 +1,3 @@
-/**
- * Sets private fields for BarGraph and LineGraph.
- * Creates the y-axis with the height of the largest value.
- */
 export class BaseChart {
   #svg
   #svgWidth
@@ -14,9 +10,7 @@ export class BaseChart {
     this.#svg = document.querySelector(`#${svgId}`)
     this.#svgWidth = width
     this.#svgHeight = height
-    this.#margin = this.#svgWidth * 0.1
-    this.#leftMargin = this.#svgWidth * 0.12
-    this.#topMargin = this.#svgWidth * 0.14
+    this.#calculateMargins()
   }
 
   get svg () {
@@ -43,7 +37,16 @@ export class BaseChart {
     return this.#topMargin
   }
 
+  #calculateMargins() {
+    this.#margin = this.#svgWidth * 0.1
+    this.#leftMargin = this.#svgWidth * 0.12
+    this.#topMargin = this.#svgWidth * 0.14
+  }
+
   createAxis (highestValue, theme, fontSize) {
+    if (highestValue <= 0) {
+      throw new Error('Highest value must be a positive, non-zero number')
+    }
     const mainAxisLine = this.#svgHeight - this.#margin
     this.#drawMainAxisLine(mainAxisLine)
 
@@ -59,8 +62,7 @@ export class BaseChart {
       lastStep = i
     }
 
-    // Add an extra step om highestValue
-    // is more than the last step
+    // Add an extra step om highestValue is more than the last step
     if (highestValue % step !== 0) {
       const i = lastStep + step
       const y = this.#svgHeight - this.#margin - (i / highestValue) * (this.#svgHeight - this.#margin - this.#topMargin)

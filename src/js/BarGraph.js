@@ -1,53 +1,35 @@
 import { BaseChart } from './BaseChart.js'
 
-/**
- * Class that creates a Bar Graph diagram by looping through each data
- * object in an array and drawing to the SVG element.
- */
 export class BarGraph extends BaseChart {
-  /**
-   * Sets the size of the bar graph SVG element for calculations.
-   *
-   * @param {string} svgId - The id for the SVG element for Bar Graph.
-   * @param {number} width - The width to make calculations from.
-   * @param {number} height - The height to make calculations from.
-   */
-  // TODO: remove? lint says unneccessary
   constructor (svgId, width, height) {
     super(svgId, width, height)
   }
 
-  /**
-   * Main method that makes calculations and calls on the drawing.
-   *
-   * @param {Array} data - The data array with objects.
-   * @param {object} theme - The chosen theme with attributes.
-   */
   createBarGraph (data, theme, fontSize) {
-    // 1.2 is padding between bars
-    const barWidth = Math.floor((this.svgWidth - this.leftMargin) / (data.length * 1.2))
+    const barPadding = 1.2
+    const totalWidth = this.svgWidth - this.leftMargin
+    const availableHeight = this.svgHeight - this.margin - this.topMargin
+    const barWidth = Math.floor(totalWidth / (data.length * barPadding))
     const highestValue = Math.max(...data.map(d => d.value))
 
     data.forEach((d, i) => {
       const value = d.value
       const label = d.label
 
-      const barHeight = (value / highestValue) * (this.svgHeight - this.margin - this.topMargin)
+      const barHeight = (value / highestValue) * (availableHeight)
 
-      // 1.2 is padding between bars
-      const x = this.leftMargin + i * 1.2 * barWidth
+      const x = this.leftMargin + i * barPadding * barWidth
       const y = (this.svgHeight - barHeight - this.margin)
-
-      this.#drawBar(x, y, barHeight, barWidth, theme)
+      const rect = this.#drawBar(x, y, barHeight, barWidth, theme)
 
       const xLabelPosition = x + barWidth / 2
       const yLabelPosition = this.svgHeight - this.margin / 2
-      this.#drawLabel(xLabelPosition, yLabelPosition, label, theme, fontSize)
+      const text = this.#drawLabel(xLabelPosition, yLabelPosition, label, theme, fontSize)
 
-      // Value y-position is set to above the bars. 1.2 is to give
-      // a small space between bars and values
-      const yValuePosition = this.svgHeight - barHeight - this.margin * 1.2
-      this.#drawValue(xLabelPosition, yValuePosition, value, theme, fontSize)
+      const yValuePosition = this.svgHeight - barHeight - this.margin * barPadding
+      const valueText = this.#drawValue(xLabelPosition, yValuePosition, value, theme, fontSize)
+
+      this.#appendElements(rect, text, valueText)
     })
     this.createAxis(highestValue, theme, fontSize)
   }
@@ -64,7 +46,7 @@ export class BarGraph extends BaseChart {
     rect.setAttribute('stroke', theme.border)
     rect.setAttribute('stroke-width', theme.borderWidth)
 
-    this.svg.appendChild(rect)
+    return rect
   }
 
   #drawLabel (xLabelPosition, yLabelPosition, label, theme, fontSize) {
@@ -79,7 +61,7 @@ export class BarGraph extends BaseChart {
 
     text.textContent = label
 
-    this.svg.appendChild(text)
+    return text
   }
 
   #drawValue (xLabelPosition, yValuePosition, value, theme, fontSize) {
@@ -90,8 +72,15 @@ export class BarGraph extends BaseChart {
     valueText.setAttribute('text-anchor', 'middle')
     valueText.setAttribute('font-family', theme.font)
     valueText.setAttribute('font-size', fontSize)
+
     valueText.textContent = value
 
+    return valueText
+  }
+
+  #appendElements (rect, text, valueText ) {
+    this.svg.appendChild(rect)
+    this.svg.appendChild(text)
     this.svg.appendChild(valueText)
   }
 }
