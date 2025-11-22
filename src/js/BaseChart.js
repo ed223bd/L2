@@ -44,7 +44,7 @@ export class BaseChart {
     return this.#topMargin
   }
 
-  #calculateMargins() {
+  #calculateMargins () {
     this.#margin = this.#svgWidth * 0.1
     this.#leftMargin = this.#svgWidth * 0.12
     this.#topMargin = this.#svgWidth * 0.14

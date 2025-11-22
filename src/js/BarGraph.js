@@ -1,10 +1,6 @@
 import { BaseChart } from './BaseChart.js'
 
 export class BarGraph extends BaseChart {
-  constructor (svgId, width, height) {
-    super(svgId, width, height)
-  }
-
   createBarGraph (data, theme, fontSize) {
     const metrics = {
       barPadding: 1.2,

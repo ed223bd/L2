@@ -1,4 +1,3 @@
-
 export class Theme {
   setTheme (chosenTheme) {
     if (chosenTheme !== 'themeA' && chosenTheme !== 'themeB') {

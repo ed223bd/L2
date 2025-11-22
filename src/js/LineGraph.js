@@ -1,10 +1,6 @@
 import { BaseChart } from './BaseChart.js'
 
 export class LineGraph extends BaseChart {
-  constructor (svgId, width, height) {
-    super(svgId, width, height)
-  }
-
   createLineGraph (data, theme, fontSize) {
     if (!data || data.length === 0) {
       throw new Error('Data needs to be a non-empty array')
@@ -42,7 +38,7 @@ export class LineGraph extends BaseChart {
     }
   }
 
-  #calculateStartingPointX(i, data, startingPointX, spaceBetweenPoints) {
+  #calculateStartingPointX (i, data, startingPointX, spaceBetweenPoints) {
     if (i === 0) {
       startingPointX += this.leftMargin
     } else if (i === data.length) {
@@ -54,7 +50,7 @@ export class LineGraph extends BaseChart {
     return startingPointX
   }
 
-  #calculateNextPointX(i, data, startingPointX, spaceBetweenPoints) {
+  #calculateNextPointX (i, data, startingPointX, spaceBetweenPoints) {
     let nextPointX
     if (i === data.length - 1) {
       nextPointX = startingPointX
