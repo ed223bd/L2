@@ -1,6 +1,4 @@
-/**
- * Theme class sets the theme to be used in BarGraph, LineGraph and BaseChart.
- */
+
 export class Theme {
   setTheme (chosenTheme) {
     if (chosenTheme !== 'themeA' && chosenTheme !== 'themeB') {
@@ -41,7 +39,6 @@ export class Theme {
       throw new Error('Font size needs to a positive number and not 0.')
     }
 
-    const fontSize = chosenSize
-    return fontSize
+    return chosenSize
   }
 }
