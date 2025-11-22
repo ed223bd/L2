@@ -10,12 +10,14 @@ export class LineGraph extends BaseChart {
       throw new Error('Data needs to be a non-empty array')
     }
 
-    const labelHeight = this.svgHeight - this.margin / 2
-    const availableHeight = this.svgHeight - this.topMargin - this.margin
-    const spaceBetweenPoints = (this.svgWidth - this.margin) / data.length
-    const highestValue = Math.max(...data.map(d => d.value))
+    const metrics = {
+      labelHeight: this.svgHeight - this.margin / 2,
+      availableHeight: this.svgHeight - this.topMargin - this.margin,
+      spaceBetweenPoints: (this.svgWidth - this.margin) / data.length,
+      highestValue: Math.max(...data.map(d => d.value))
+    }
 
-    this.createAxis(highestValue, theme, fontSize)
+    this.createAxis(metrics.highestValue, theme, fontSize)
 
     let startingPointX = 0
 
@@ -23,53 +25,53 @@ export class LineGraph extends BaseChart {
       const value = data[i].value
       const label = data[i].label
 
-      const heightOfPoint = Math.floor(value / this.highestValue * (this.availableHeight))
+      const heightOfPoint = Math.floor(value / metrics.highestValue * (metrics.availableHeight))
 
-      startingPointX = this.#calculateStartingPointX(i, data, startingPointX)
-      const nextPointX = this.#calculateNextPointX(i, data, startingPointX)
-      const heightOfNextPoint = this.#calculateHeightOfNextPoint(i, data, heightOfPoint)
+      startingPointX = this.#calculateStartingPointX(i, data, startingPointX, metrics.spaceBetweenPoints)
+      const nextPointX = this.#calculateNextPointX(i, data, startingPointX, metrics.spaceBetweenPoints)
+      const heightOfNextPoint = this.#calculateHeightOfNextPoint(i, data, heightOfPoint, metrics)
 
       const startingPointY = this.svgHeight - heightOfPoint - this.margin
       const nextPointY = this.svgHeight - heightOfNextPoint - this.margin
 
       const path = this.#drawLine(startingPointX, startingPointY, nextPointX, nextPointY, theme)
       const valueText = this.#drawValue(startingPointX, startingPointY, value, theme, fontSize)
-      const labelText = this.#drawLabel(startingPointX, label, theme, fontSize)
+      const labelText = this.#drawLabel(startingPointX, metrics.labelHeight, label, theme, fontSize)
 
       this.#appendElements(path, valueText, labelText)
     }
   }
 
-  #calculateStartingPointX(i, data, startingPointX) {
+  #calculateStartingPointX(i, data, startingPointX, spaceBetweenPoints) {
     if (i === 0) {
       startingPointX += this.leftMargin
     } else if (i === data.length) {
       startingPointX += 0
     } else {
-      startingPointX += this.spaceBetweenPoints
+      startingPointX += spaceBetweenPoints
     }
 
     return startingPointX
   }
 
-  #calculateNextPointX(i, data, startingPointX) {
+  #calculateNextPointX(i, data, startingPointX, spaceBetweenPoints) {
     let nextPointX
     if (i === data.length - 1) {
       nextPointX = startingPointX
     } else {
-      nextPointX = startingPointX + this.spaceBetweenPoints
+      nextPointX = startingPointX + spaceBetweenPoints
     }
 
     return nextPointX
   }
 
-  #calculateHeightOfNextPoint (i, data, heightOfPoint) {
+  #calculateHeightOfNextPoint (i, data, heightOfPoint, metrics) {
     let heightOfNextPoint
     if (i === data.length - 1) {
       // Makes the last line into just a point
       heightOfNextPoint = heightOfPoint
     } else {
-      heightOfNextPoint = Math.floor(data[i + 1].value / this.highestValue * (this.availableHeight))
+      heightOfNextPoint = Math.floor(data[i + 1].value / metrics.highestValue * (metrics.availableHeight))
     }
 
     return heightOfNextPoint
@@ -103,11 +105,11 @@ export class LineGraph extends BaseChart {
     return valueText
   }
 
-  #drawLabel (startingPointX, label, theme, fontSize) {
+  #drawLabel (startingPointX, labelHeight, label, theme, fontSize) {
     const labelText = document.createElementNS('http://www.w3.org/2000/svg', 'text')
 
     labelText.setAttribute('x', startingPointX)
-    labelText.setAttribute('y', this.labelHeight)
+    labelText.setAttribute('y', labelHeight)
     labelText.setAttribute('text-anchor', 'middle')
     labelText.setAttribute('font-family', theme.font)
     labelText.setAttribute('font-size', fontSize)

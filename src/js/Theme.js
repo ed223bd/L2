@@ -1,12 +1,5 @@
-/**
- * Sets the theme to be used in the diagrams.
- */
+
 export class Theme {
-  /**
-   * Takes a string and returns a predefined theme if it is a match.
-   *
-   * @param {string} chosenTheme - The theme requested.
-   */
   setTheme (chosenTheme) {
     if (chosenTheme !== 'themeA' && chosenTheme !== 'themeB') {
       throw new Error('Choose one of the themes available')
@@ -46,7 +39,6 @@ export class Theme {
       throw new Error('Font size needs to a positive number and not 0.')
     }
 
-    const fontSize = chosenSize
-    return fontSize
+    return chosenSize
   }
 }
